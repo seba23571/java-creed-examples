@@ -1,0 +1,22 @@
+{
+  '1': {
+    'title': 'Effective Java (2nd Edition)',
+    'isbn': '978-0321356680',
+    'authors': ['Joshua Bloch']
+  },
+  '2': {
+    'title': 'JavaTM Puzzlers: Traps, Pitfalls, and Corner Cases',
+    'isbn': '978-0321336781',
+    'authors': ['Joshua Bloch', 'Neal Gafter']
+  },
+  '3': {
+    'title': 'Java Concurrency in Practice',
+    'isbn': '978-0321349606',
+    'authors': ['Brian Goetz', 'Tim Peierls', 'Joshua Bloch', 'Joseph Bowbeer', 'David Holmes', 'Doug Lea']
+  },
+  '4': {
+    'title': 'Java: The Good Parts',
+    'isbn': '978-0596803735',
+    'authors': ['Jim Waldo']
+  }
+}
