@@ -1,4 +1,4 @@
-package com.javacreed.examples.gson.part2_4;
+package com.javacreed.examples.gson.part4;
 
 import java.lang.reflect.Type;
 import java.util.Collection;

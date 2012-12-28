@@ -1,4 +1,4 @@
-package com.javacreed.examples.gson.part2_3;
+package com.javacreed.examples.gson.part3;
 
 public class Main1 {
   public static void main(final String[] args) throws Exception {
