@@ -1,4 +1,4 @@
-package com.javacreed.examples.gson.part2_3;
+package com.javacreed.examples.gson.part3;
 
 import java.lang.reflect.Type;
 
