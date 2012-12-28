@@ -14,8 +14,8 @@ import com.google.gson.JsonParseException;
 public class BooksDeserializer implements JsonDeserializer<Books> {
 
   @Override
-  public Books deserialize(final JsonElement json, final Type typeOfT,
-      final JsonDeserializationContext context) throws JsonParseException {
+  public Books deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+      throws JsonParseException {
     final Books books = new Books();
 
     final JsonObject jsonObject = json.getAsJsonObject();
@@ -42,8 +42,7 @@ public class BooksDeserializer implements JsonDeserializer<Books> {
 
     final String title = jsonBook.get("title").getAsString();
     final String isbn = jsonBook.get("isbn").getAsString();
-    final Book book = new Book(title, isbn,
-        bookAuthors.toArray(new Author[bookAuthors.size()]));
+    final Book book = new Book(title, isbn, bookAuthors.toArray(new Author[bookAuthors.size()]));
 
     for (final Author author : bookAuthors) {
       author.addBook(book);

@@ -8,7 +8,7 @@ public class IdInstanceCreator<T> implements InstanceCreator<Id<T>> {
 
   private final Class<T> idType;
 
-  public IdInstanceCreator(Class<T> type) {
+  public IdInstanceCreator(final Class<T> type) {
     this.idType = type;
   }
 

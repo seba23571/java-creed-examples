@@ -11,8 +11,8 @@ import com.google.gson.JsonParseException;
 public class BooksDeserializer implements JsonDeserializer<Books> {
 
   @Override
-  public Books deserialize(final JsonElement json, final Type typeOfT,
-      final JsonDeserializationContext context) throws JsonParseException {
+  public Books deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+      throws JsonParseException {
     final Books books = new Books();
 
     final JsonObject jsonObject = json.getAsJsonObject();
