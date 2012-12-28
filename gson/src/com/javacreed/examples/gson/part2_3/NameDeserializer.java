@@ -11,8 +11,8 @@ import com.google.gson.JsonParseException;
 public class NameDeserializer implements JsonDeserializer<Name> {
 
   @Override
-  public Name deserialize(final JsonElement json, final Type typeOfT,
-      final JsonDeserializationContext context) throws JsonParseException {
+  public Name deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+      throws JsonParseException {
 
     final JsonObject object = json.getAsJsonObject();
 

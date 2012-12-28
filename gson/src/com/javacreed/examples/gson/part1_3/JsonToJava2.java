@@ -9,8 +9,7 @@ import com.google.gson.GsonBuilder;
 
 public class JsonToJava2 {
   public static void main(final String[] args) throws IOException {
-    try (final Reader reader = new InputStreamReader(
-        JsonToJava2.class.getResourceAsStream("Server2.json"))) {
+    try (final Reader reader = new InputStreamReader(JsonToJava2.class.getResourceAsStream("Server2.json"))) {
 
       final Gson gson = new GsonBuilder().create();
       final Person2 p = gson.fromJson(reader, Person2.class);

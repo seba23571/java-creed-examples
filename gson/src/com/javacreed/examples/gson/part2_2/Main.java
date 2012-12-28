@@ -15,8 +15,7 @@ public class Main {
     final Gson gson = gsonBuilder.create();
 
     // The JSON data
-    try (Reader data = new InputStreamReader(
-        Main.class.getResourceAsStream("books.json"), "UTF-8")) {
+    try (Reader data = new InputStreamReader(Main.class.getResourceAsStream("books.json"), "UTF-8")) {
 
       // Parse JSON to Java
       final Books books = gson.fromJson(data, Books.class);
