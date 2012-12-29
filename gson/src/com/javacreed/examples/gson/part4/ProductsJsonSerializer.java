@@ -17,7 +17,7 @@ public class ProductsJsonSerializer implements JsonSerializer<Collection<Product
 
     final JsonObject json = new JsonObject();
     json.addProperty("size", products.size());
-    
+
     final JsonArray jsonArray = new JsonArray();
     json.add("collection", jsonArray);
     for (final Product product : products) {
