@@ -5,7 +5,6 @@ import com.google.gson.annotations.Until;
 
 public class SoccerPlayer {
 
-  @Since(1.0)
   private String name;
 
   @Since(1.2)
@@ -14,7 +13,6 @@ public class SoccerPlayer {
   @Until(0.9)
   private String country;
 
-  @Since(1.0)
   private String teamName;
 
   public String getCountry() {
