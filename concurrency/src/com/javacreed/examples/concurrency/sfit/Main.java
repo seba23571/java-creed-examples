@@ -54,7 +54,7 @@ public class Main {
         Util.printLog("Failed: %s", e);
       } finally {
         final long timeTaken = System.nanoTime() - waitStart;
-        globalWaitTime -= timeTaken;
+        globalWaitTime = Math.max(globalWaitTime - timeTaken, 0);
       }
     }
   }
