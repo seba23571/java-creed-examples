@@ -17,6 +17,7 @@ public class MyWorker implements Runnable {
       Thread.sleep(TimeUnit.SECONDS.toMillis(sleepTime));
       Util.printLog("Finished");
     } catch (final InterruptedException e) {
+      Thread.currentThread().interrupt();
       final long interruptedAfter = System.nanoTime() - startTime;
       Util.printLog("Interrupted after %,d nano seconds", interruptedAfter);
     }
