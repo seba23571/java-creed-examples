@@ -21,7 +21,7 @@ public class Main {
       }
 
       Util.printLog("Waiting for the workers to finish");
-      Main.method1(list, 5, TimeUnit.SECONDS);
+      Main.method2(list, 5, TimeUnit.SECONDS);
       final long finishTime = System.nanoTime();
       Util.printLog("Program finished after: %,d nano seconds", finishTime - startTime);
 
