@@ -1,4 +1,4 @@
-package com.javacreed.examples.sc.part2;
+package com.javacreed.examples.sc.part2_1;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,10 @@ public class Fibonacci {
     return executions;
   }
 
+  public void resetExecutions() {
+    this.executions = 0;
+  }
+
   @Cacheable("fibonacci")
   public long valueAt(final long index) {
     executions++;
@@ -20,10 +24,6 @@ public class Fibonacci {
     }
 
     return valueAt(index - 1) + valueAt(index - 2);
-  }
-
-  public void resetExecutions() {
-    this.executions = 0;
   }
 
 }

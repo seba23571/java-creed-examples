@@ -9,7 +9,7 @@ public class Main {
     try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(xmlFile)) {
 
       final Worker worker = context.getBean(Worker.class);
-      System.out.println("Worker class: "+worker.getClass().getCanonicalName());
+      System.out.println("Worker class: " + worker.getClass().getCanonicalName());
       worker.longTask(1);
       worker.longTask(1);
       worker.longTask(1);
