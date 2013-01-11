@@ -38,7 +38,7 @@ public class MembersServiceImpl implements MembersService, InitializingBean, Dis
         }
       }
     } catch (final Exception e) {
-      throw new RuntimeException("Failed to load memners", e);
+      throw new RuntimeException("Failed to load members", e);
     }
 
     return null;
@@ -61,7 +61,7 @@ public class MembersServiceImpl implements MembersService, InitializingBean, Dis
 
       FileUtils.write(new File("members.txt"), toSave.toString().trim(), "UTF-8");
     } catch (final Exception e) {
-      throw new RuntimeException("Failed to save memners", e);
+      throw new RuntimeException("Failed to save members", e);
     }
   }
 }
