@@ -14,6 +14,10 @@ public class Main {
       Member member = service.getMemberWithId(1);
       System.out.println(member);
 
+      // Load member with id 1 again
+      member = service.getMemberWithId(1);
+      System.out.println(member);
+
       // Edit member with id 1
       member = new Member(1, "Joe Vella");
       service.saveMember(member);
