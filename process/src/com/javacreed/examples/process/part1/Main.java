@@ -27,7 +27,7 @@ public class Main {
 
     // Set the working directory. The batch file will run as if you are in this
     // directory.
-    processBuilder.directory(new File("C:\\solid\\exa\\projects\\java\\process\\work"));
+    processBuilder.directory(new File("work"));
 
     // Start the process and wait for it to finish.
     final Process process = processBuilder.start();
