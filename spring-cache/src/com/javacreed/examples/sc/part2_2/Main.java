@@ -10,10 +10,10 @@ public class Main {
 
       final long start = System.nanoTime();
       final Fibonacci sequence = context.getBean("fibonacci2", Fibonacci.class);
-      final long fibNumber = sequence.valueAt(40, sequence);
+      final long fibNumber = sequence.valueAt(5, sequence);
       final int executions = sequence.getExecutions();
       final long timeTaken = System.nanoTime() - start;
-      System.out.printf("The 5th fibonacci number is: %d (%,d executions in %,d NS)%n", fibNumber, executions,
+      System.out.printf("The 5th Fibonacci number is: %d (%,d executions in %,d NS)%n", fibNumber, executions,
           timeTaken);
     }
   }
