@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
-		<tomcat-plugin-version>2.0-beta-1</tomcat-plugin-version>
+		<maven-project-for-web-version>0.0.1-SNAPSHOT</maven-project-for-web-version>
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -44,12 +44,13 @@
 		<dependency>
 			<groupId>com.javacreed.examples</groupId>
 			<artifactId>maven-project-for-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${maven-project-for-web-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
 			<version>7.0.34</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
