@@ -5,6 +5,6 @@ import java.util.List;
 public interface TimeListAction {
 
   String getName();
-  
-	long timeAction(List<String> list, int limit);
+
+  long timeAction(List<String> list, int limit);
 }
