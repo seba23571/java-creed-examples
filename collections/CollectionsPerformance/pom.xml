@@ -25,7 +25,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.javacreed.examples.collections.list.TestListPerformance</mainClass>
+							<mainClass>com.javacreed.examples.collections.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

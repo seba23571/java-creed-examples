@@ -32,7 +32,7 @@ public interface ListFactory {
   ListFactory ARRAY_LIST_WITH_SIZE_FACTORY = new AbstractListFactory("ArrayList with init size") {
     @Override
     public List<String> create(final int size) {
-      return new ArrayList<>();
+      return new ArrayList<>(size);
     }
   };
 
@@ -43,7 +43,7 @@ public interface ListFactory {
     }
   };
 
-  ListFactory VECTOR_WITH_FACTORY = new AbstractListFactory("Vector") {
+  ListFactory VECTOR_FACTORY = new AbstractListFactory("Vector") {
     @Override
     public List<String> create(final int size) {
       return new Vector<>();
