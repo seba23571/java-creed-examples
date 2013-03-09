@@ -1,13 +1,11 @@
 package com.javacreed.examples.collections.list;
 
-import java.io.IOException;
-
 public class TestListPerformance {
 
-  public static void main(final String[] args) throws IOException {
+  public static void run() {
 
     final ListFactory[] factories = {//@formatter:off 
-        ListFactory.VECTOR_WITH_FACTORY,
+        ListFactory.VECTOR_FACTORY,
         ListFactory.VECTOR_WITH_SIZE_FACTORY,
 				ListFactory.ARRAY_LIST_FACTORY,
 				ListFactory.ARRAY_LIST_WITH_SIZE_FACTORY,
@@ -17,6 +15,7 @@ public class TestListPerformance {
 
     final TimeListAction[] listActions = {//@formatter:off  
         new TimeListAddAction(), 
+        new TimeListSetAction(), 
         new TimeListGetAction(),
         new TimeListIteratorAction(), 
         new TimeListSizeAction() };//@formatter:on
@@ -33,7 +32,7 @@ public class TestListPerformance {
   }
 
   private static void run(final int limit, final int runs, final ListFactory listFactory,
-      final TimeListAction... timeListActions) throws IOException {
+      final TimeListAction... timeListActions) {
 
     System.out.printf("%-24s", listFactory.getName());
 
