@@ -11,7 +11,7 @@ public class MyBlankWorker extends SwingWorker<Integer, String> {
     // Start
     publish("Start");
     setProgress(1);
-    
+
     // More work was done
     publish("More work was done");
     setProgress(10);
@@ -21,9 +21,9 @@ public class MyBlankWorker extends SwingWorker<Integer, String> {
     setProgress(100);
     return 1;
   }
-  
+
   @Override
-  protected void process(List<String> chunks) {
+  protected void process(final List<String> chunks) {
     // Messages received from the doInBackground() (when invoking the publish() method)
   }
 
