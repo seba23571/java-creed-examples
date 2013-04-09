@@ -32,7 +32,7 @@
 		<constructor-arg ref="tjtDataSource" />
 	</bean>
 
-	<bean id="transactionManager"
+	<bean id="tjtJTransactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="tjtDataSource" />
 	</bean>

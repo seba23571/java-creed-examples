@@ -18,7 +18,7 @@ public class TjtDaoImpl2 implements TjtDao {
   }
 
   @Override
-  @Transactional
+  @Transactional("tjtJTransactionManager")
   public void save(final String value) {
     insert("T1", value);
     insert("T2", value);
