@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,6 +21,7 @@ public class TjtDaoTest {
   private JdbcTemplate jdbcTemplate;
 
   @Autowired
+  @Qualifier("tjtDaoImpl2")
   private TjtDao dao;
 
   @Before
