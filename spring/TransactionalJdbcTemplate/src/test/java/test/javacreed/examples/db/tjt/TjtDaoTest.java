@@ -41,6 +41,7 @@ public class TjtDaoTest {
   @Test
   public void test2() {
     try {
+      // This will fail as it is not an integer
       dao.save("a");
       Assert.fail("This had to fail with a DataIntegrityViolationException");
     } catch (final DataIntegrityViolationException e) {
