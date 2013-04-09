@@ -11,7 +11,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.javacreed.examples.db.tjt" />
 
-	<tx:annotation-driven />
+	<tx:annotation-driven transaction-manager="tjtJTransactionManager" />
 
 	<bean id="tjtDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" scope="singleton">
@@ -28,15 +28,17 @@
 		<property name="numHelperThreads" value="3" />
 	</bean>
 
-	<bean id="tjtJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<bean id="tjtJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		scope="singleton">
 		<constructor-arg ref="tjtDataSource" />
 	</bean>
 
 	<bean id="tjtJTransactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		scope="singleton">
 		<property name="dataSource" ref="tjtDataSource" />
 	</bean>
-	
+
 	<jdbc:initialize-database data-source="tjtDataSource"
 		ignore-failures="DROPS">
 		<jdbc:script location="classpath:database/schema.sql" />
