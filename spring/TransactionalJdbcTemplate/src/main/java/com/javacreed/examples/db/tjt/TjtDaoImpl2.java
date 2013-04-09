@@ -8,15 +8,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Lazy
 @Component
-public class TjtDaoImpl implements TjtDao {
+public class TjtDaoImpl2 implements TjtDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  private void insert(final String tableName, final String value) {
+    jdbcTemplate.update("INSERT INTO " + tableName + " VALUES (?)", value);
+  }
+
   @Override
   @Transactional
   public void save(final String value) {
-    jdbcTemplate.update("INSERT INTO T1 VALUES (?)", value);
-    jdbcTemplate.update("INSERT INTO T2 VALUES (?)", value);
+    insert("T1", value);
+    insert("T2", value);
   }
 }
