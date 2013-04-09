@@ -15,7 +15,7 @@ public class TjtDaoImpl implements TjtDao {
 
   @Override
   @Transactional
-  public void save(String value) {
+  public void save(final String value) {
     jdbcTemplate.update("INSERT INTO T1 VALUES (?)", value);
     jdbcTemplate.update("INSERT INTO T2 VALUES (?)", value);
   }
