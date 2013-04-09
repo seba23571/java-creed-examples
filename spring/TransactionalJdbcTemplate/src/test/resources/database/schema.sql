@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS `t1` (
+  `col_1` VARCHAR(128)
+);
+
+CREATE TABLE IF NOT EXISTS `t2` (
+  `col_1` INT(11)
+);
