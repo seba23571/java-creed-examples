@@ -1,14 +1,14 @@
-package com.javacreed.examples.gson.part3;
+package com.javacreed.examples.gson.part2;
 
-public class Exam1 {
-  private String SUBJECT;
-  private double GRADE;
+public class Person {
+  private String NAME;
+  private String LOCATION;
 
   // Getters and setters are not required for this example.
   // GSON sets the fields directly using reflection.
 
   @Override
   public String toString() {
-    return SUBJECT + " - " + GRADE;
+    return NAME + " - " + LOCATION;
   }
 }
