@@ -1,4 +1,4 @@
-package com.javacreed.examples.gson.part1;
+package com.javacreed.examples.gson;
 
 public class Item {
 
