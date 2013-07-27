@@ -1,6 +1,5 @@
 package com.javacreed.examples.gson.part1;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,8 +9,8 @@ import com.google.gson.GsonBuilder;
 public class SimpleTest {
 
   @Test
-  public void test() throws Exception {
-    final String json = IOUtils.toString(getClass().getResourceAsStream("/samples/sample1.json"), "UTF-8");
+  public void test() {
+    final String json = "{'item':{'name':'Sample Text'}}";
 
     final Gson gson = new GsonBuilder().create();
     final OuterClass object = gson.fromJson(json, OuterClass.class);

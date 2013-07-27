@@ -8,7 +8,7 @@ public class Tutor extends Person {
     return subject;
   }
 
-  public void setSubject(Subject subject) {
+  public void setSubject(final Subject subject) {
     this.subject = subject;
   }
 
@@ -16,6 +16,5 @@ public class Tutor extends Person {
   public String toString() {
     return "Tutor [subject=" + subject + "]";
   }
-  
-  
+
 }
