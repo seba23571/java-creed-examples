@@ -16,10 +16,9 @@ public class BooksDeserializer implements JsonDeserializer<Books> {
     final Books books = new Books();
 
     final JsonObject jsonObject = json.getAsJsonObject();
-    books.addBookTitle(jsonObject.get("1").getAsString());
-    books.addBookTitle(jsonObject.get("2").getAsString());
-    books.addBookTitle(jsonObject.get("3").getAsString());
-    books.addBookTitle(jsonObject.get("4").getAsString());
+    for (int i = 1; jsonObject.has(String.valueOf(i)); i++) {
+      books.addBookTitle(jsonObject.get(String.valueOf(i)).getAsString());
+    }
 
     return books;
   }

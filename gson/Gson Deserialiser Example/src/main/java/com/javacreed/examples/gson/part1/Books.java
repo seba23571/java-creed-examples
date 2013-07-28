@@ -11,6 +11,10 @@ public class Books {
     booksTitles.add(title);
   }
 
+  public List<String> getBooksTitles() {
+    return booksTitles;
+  }
+
   @Override
   public String toString() {
     return booksTitles.toString();

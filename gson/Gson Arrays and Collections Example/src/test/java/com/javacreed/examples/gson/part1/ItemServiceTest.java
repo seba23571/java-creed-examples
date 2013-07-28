@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SimpleTest {
+public class ItemServiceTest {
 
   private final ItemService itemService = new ItemServiceImpl();
 
