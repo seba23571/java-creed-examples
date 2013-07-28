@@ -18,8 +18,16 @@ public class Books {
     books.add(book);
   }
 
+  public Map<String, Author> getAuthors() {
+    return authors;
+  }
+
   public Author getAuthorWithName(final String name) {
     return authors.get(name);
+  }
+
+  public Set<Book> getBooks() {
+    return books;
   }
 
   @Override
