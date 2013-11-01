@@ -13,7 +13,7 @@ public class FibonacciExample {
     final long index = 12;
     final FibonacciExample example = new FibonacciExample();
     final long fn = example.getNumber(index);
-    System.out.printf("The %dth Fibonacci number is: %d%n", index, fn);
+    FibonacciExample.LOGGER.debug("The {}th Fibonacci number is: {}", index, fn);
   }
 
   private final GenericCacheExample<Long, Long> cache = new GenericCacheExample<>();
