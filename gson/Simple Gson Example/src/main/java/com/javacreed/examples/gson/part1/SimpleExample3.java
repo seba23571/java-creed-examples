@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 
 public class SimpleExample3 {
   public static void main(final String[] args) throws IOException {
-    try (final Writer writer = new OutputStreamWriter(new FileOutputStream("Output.json"))) {
+    try (final Writer writer = new OutputStreamWriter(new FileOutputStream("Output.json"), "UTF-8")) {
       final Gson gson = new GsonBuilder().create();
       gson.toJson("Hello", writer);
       gson.toJson(123, writer);
