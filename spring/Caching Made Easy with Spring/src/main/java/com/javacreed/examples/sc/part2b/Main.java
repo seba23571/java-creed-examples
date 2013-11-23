@@ -1,4 +1,4 @@
-package com.javacreed.examples.sc.part2_2;
+package com.javacreed.examples.sc.part2b;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
