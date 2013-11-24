@@ -1,0 +1,7 @@
+{
+  "accountNumber": "A123 45678 90",
+  "iban":          "IBAN 11 22 33 44",
+  "owner":         "Albert Attard",
+  "address":       "Somewhere, Far Far Away",
+  "pin":           "1234"
+}
