@@ -24,10 +24,14 @@ public class AuthorDeserializer implements JsonDeserializer<Author> {
   public Author deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
       throws JsonParseException {
 
+    // Only the ID is available
     if (json.isJsonPrimitive()) {
       final JsonPrimitive primitive = json.getAsJsonPrimitive();
       return getOrCreate(primitive.getAsInt());
-    } else if (json.isJsonObject()) {
+    } 
+
+    // The whole object is available
+    if (json.isJsonObject()) {
       final JsonObject jsonObject = json.getAsJsonObject();
 
       final Author author = getOrCreate(jsonObject.get("id").getAsInt());
