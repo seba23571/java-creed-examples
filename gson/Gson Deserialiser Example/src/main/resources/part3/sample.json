@@ -1,0 +1,24 @@
+{
+  'authors': [
+    {
+      'id': 1,
+      'name': 'Joshua Bloch'
+    },
+    {
+      'id': 2,
+      'name': 'Neal Gafter'
+    }
+  ],
+  'books': [
+    {
+      'title': 'Java Puzzlers: Traps, Pitfalls, and Corner Cases',
+      'isbn': '032133678X',
+      'authors':[1, 2]
+    },
+    {
+      'title': 'Effective Java (2nd Edition)',
+      'isbn': '0321356683',
+      'authors':[1]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  'title': 'Java Puzzlers: Traps, Pitfalls, and Corner Cases',
+  'isbn': '032133678X',
+  'authors':[
+    {
+      'id': 1,
+      'name': 'Joshua Bloch'
+    },
+    {
+      'id': 2,
+      'name': 'Neal Gafter'
+    }
+  ]
+}
