@@ -1,4 +1,4 @@
-package com.javacreed.examples.gson.part2;
+package com.javacreed.examples.gson.part3;
 
 import java.io.IOException;
 
@@ -28,7 +28,16 @@ public class Main {
         javaPuzzlers.setIsbn("032133678X");
         javaPuzzlers.setAuthors(new Author[] { joshuaBloch, nealGafter });
 
-        final String json = gson.toJson(javaPuzzlers);
+        final Book effectiveJava = new Book();
+        effectiveJava.setTitle("Effective Java (2nd Edition)");
+        effectiveJava.setIsbn("0321356683");
+        effectiveJava.setAuthors(new Author[] { joshuaBloch });
+
+        final Data data = new Data();
+        data.setAuthors(new Author[] { joshuaBloch, nealGafter });
+        data.setBooks(new Book[] { javaPuzzlers, effectiveJava });
+
+        final String json = gson.toJson(data);
         System.out.println(json);
     }
 }
