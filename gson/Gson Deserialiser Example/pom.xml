@@ -4,9 +4,18 @@
 	<groupId>com.javacreed.examples</groupId>
 	<artifactId>gson-deserialiser-example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>Gson Deserialiser Example</name>
+	<url>http://www.javacreed.com/gson-deserialiser-example/</url>
+
+	<organization>
+		<name>Java Creed</name>
+		<url>http://www.javacreed.com</url>
+	</organization>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
