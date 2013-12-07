@@ -1,17 +1,16 @@
-package com.javacreed.examples.gson.part2;
+package com.javacreed.examples.gson.part3;
 
 import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Main {
+public class Example2 {
 
   public static void main(final String[] args) throws IOException {
     // Configure GSON
     final GsonBuilder gsonBuilder = new GsonBuilder();
     gsonBuilder.registerTypeAdapter(Book.class, new BookSerialiser());
-    gsonBuilder.registerTypeAdapter(Author.class, new AuthorSerialiser());
     gsonBuilder.setPrettyPrinting();
     final Gson gson = gsonBuilder.create();
 
@@ -28,7 +27,14 @@ public class Main {
     javaPuzzlers.setIsbn("032133678X");
     javaPuzzlers.setAuthors(new Author[] { joshuaBloch, nealGafter });
 
-    final String json = gson.toJson(javaPuzzlers);
+    final Book effectiveJava = new Book();
+    effectiveJava.setTitle("Effective Java (2nd Edition)");
+    effectiveJava.setIsbn("0321356683");
+    effectiveJava.setAuthors(new Author[] { joshuaBloch });
+
+    final Book[] books = new Book[] { javaPuzzlers, effectiveJava };
+
+    final String json = gson.toJson(books);
     System.out.println(json);
   }
 }

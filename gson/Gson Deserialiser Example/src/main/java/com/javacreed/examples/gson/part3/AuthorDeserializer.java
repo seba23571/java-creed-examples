@@ -28,7 +28,7 @@ public class AuthorDeserializer implements JsonDeserializer<Author> {
     if (json.isJsonPrimitive()) {
       final JsonPrimitive primitive = json.getAsJsonPrimitive();
       return getOrCreate(primitive.getAsInt());
-    } 
+    }
 
     // The whole object is available
     if (json.isJsonObject()) {

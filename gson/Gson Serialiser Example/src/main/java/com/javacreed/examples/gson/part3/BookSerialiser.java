@@ -9,15 +9,15 @@ import com.google.gson.JsonSerializer;
 
 public class BookSerialiser implements JsonSerializer<Book> {
 
-    @Override
-    public JsonElement serialize(final Book book, final Type typeOfSrc, final JsonSerializationContext context) {
-        final JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("title", book.getTitle());
-        jsonObject.addProperty("isbn", book.getIsbn());
-        
-        final JsonElement jsonAuthros = context.serialize(book.getAuthorsIds());
-        jsonObject.add("authors", jsonAuthros);
+  @Override
+  public JsonElement serialize(final Book book, final Type typeOfSrc, final JsonSerializationContext context) {
+    final JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("title", book.getTitle());
+    jsonObject.addProperty("isbn", book.getIsbn());
 
-        return jsonObject;
-    }
+    final JsonElement jsonAuthros = context.serialize(book.getAuthorsIds());
+    jsonObject.add("authors", jsonAuthros);
+
+    return jsonObject;
+  }
 }

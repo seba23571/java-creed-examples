@@ -9,15 +9,15 @@ public class Data {
     return authors;
   }
 
-  public void setAuthors(Author[] authors) {
-    this.authors = authors;
-  }
-
   public Book[] getBooks() {
     return books;
   }
 
-  public void setBooks(Book[] books) {
+  public void setAuthors(final Author[] authors) {
+    this.authors = authors;
+  }
+
+  public void setBooks(final Book[] books) {
     this.books = books;
   }
 
