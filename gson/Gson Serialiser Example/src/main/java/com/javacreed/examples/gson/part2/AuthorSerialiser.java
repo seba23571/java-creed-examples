@@ -9,12 +9,12 @@ import com.google.gson.JsonSerializer;
 
 public class AuthorSerialiser implements JsonSerializer<Author> {
 
-    @Override
-    public JsonElement serialize(final Author author, final Type typeOfSrc, final JsonSerializationContext context) {
-        final JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", author.getId());
-        jsonObject.addProperty("name", author.getName());
+  @Override
+  public JsonElement serialize(final Author author, final Type typeOfSrc, final JsonSerializationContext context) {
+    final JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("id", author.getId());
+    jsonObject.addProperty("name", author.getName());
 
-        return jsonObject;
-    }
+    return jsonObject;
+  }
 }

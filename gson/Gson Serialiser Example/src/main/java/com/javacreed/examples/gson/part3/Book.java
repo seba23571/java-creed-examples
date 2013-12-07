@@ -5,14 +5,14 @@ public class Book {
   private Author[] authors;
   private String isbn;
   private String title;
-  
+
   public Author[] getAuthors() {
     return authors;
   }
 
   public int[] getAuthorsIds() {
-    int[] ids = new int[authors.length];
-    for(int i=0;i<ids.length; i++){
+    final int[] ids = new int[authors.length];
+    for (int i = 0; i < ids.length; i++) {
       ids[i] = authors[i].getId();
     }
     return ids;
