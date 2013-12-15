@@ -1,60 +1,15 @@
 package com.javacreed.examples.oop.part3;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.javacreed.examples.oop.part3.tax.ChainedTaxCalculator;
-import com.javacreed.examples.oop.part3.tax.EcoTaxCalculator;
-import com.javacreed.examples.oop.part3.tax.ImportTaxCalculator;
-import com.javacreed.examples.oop.part3.tax.SalesTaxCalculator;
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+
 import com.javacreed.examples.oop.part3.tax.TaxCalculator;
 
+@ThreadSafe
+@Immutable
 public class Item {
-
-  public static class Builder {
-
-    private final String name;
-    private final BigDecimal originalPrice;
-    private final List<TaxCalculator> taxCalculators = new ArrayList<>();
-
-    public Builder(final String name, final BigDecimal originalPrice) {
-      this.name = name;
-      this.originalPrice = originalPrice;
-    }
-
-    public Builder(final String name, final String originalPrice) throws NumberFormatException {
-      this(name, new BigDecimal(originalPrice));
-    }
-
-    public Builder addAllTaxCalculators() {
-      addSalesTaxCalculator();
-      addImportTaxCalculator();
-      addEcoTaxCalculator();
-      return this;
-    }
-
-    public Builder addEcoTaxCalculator() {
-      return addTaxCalculator(new EcoTaxCalculator());
-    }
-
-    public Builder addImportTaxCalculator() {
-      return addTaxCalculator(new ImportTaxCalculator());
-    }
-
-    public Builder addSalesTaxCalculator() {
-      return addTaxCalculator(new SalesTaxCalculator());
-    }
-
-    public Builder addTaxCalculator(final TaxCalculator taxCalculator) {
-      this.taxCalculators.add(taxCalculator);
-      return this;
-    }
-
-    public Item build() {
-      return new Item(name, originalPrice, new ChainedTaxCalculator(taxCalculators));
-    }
-  }
 
   private final String name;
   private final BigDecimal originalPrice;
@@ -64,6 +19,11 @@ public class Item {
     this.name = name;
     this.originalPrice = originalPrice;
     this.taxCalculator = taxCalculator;
+  }
+
+  public Item(final String name, final String originalPrice, final TaxCalculator taxCalculator)
+      throws NumberFormatException {
+    this(name, new BigDecimal(originalPrice), taxCalculator);
   }
 
   public BigDecimal calculateTax() {
