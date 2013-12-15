@@ -1,14 +1,13 @@
 package com.javacreed.examples.oop.part3.tax;
 
-import java.math.BigDecimal;
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
 
-public class SalesTaxCalculator extends AbstractTaxCalculator {
+@ThreadSafe
+@Immutable
+public class SalesTaxCalculator extends BasicTaxCalculator {
 
-  private final BigDecimal tax = new BigDecimal("0.1800");
-
-  @Override
-  public BigDecimal doCalculateTax(final BigDecimal value) {
-    return value.multiply(tax);
+  public SalesTaxCalculator() {
+    super("0.1800");
   }
-
 }

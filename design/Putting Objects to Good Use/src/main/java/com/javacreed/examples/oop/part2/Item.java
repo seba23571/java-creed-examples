@@ -15,26 +15,26 @@ public class Item {
 
   private final String name;
   private final BigDecimal price;
-  private final BigDecimal[] taxesInPercent;
+  private final BigDecimal[] taxes;
 
-  public Item(final String name, final BigDecimal price, final BigDecimal... taxesInPercent) {
+  public Item(final String name, final BigDecimal price, final BigDecimal... taxes) {
     this.name = name;
     this.price = price;
-    this.taxesInPercent = taxesInPercent;
+    this.taxes = taxes;
   }
 
-  public Item(final String name, final String price, final String... taxesInPercent) throws NumberFormatException {
-    this(name, new BigDecimal(price), Item.parseAll(taxesInPercent));
+  public Item(final String name, final String price, final String... taxes) throws NumberFormatException {
+    this(name, new BigDecimal(price), Item.parseAll(taxes));
   }
 
   public BigDecimal calculateTax() {
     BigDecimal totalTax = BigDecimal.ZERO;
-    for (final BigDecimal taxInPercent : this.taxesInPercent) {
-      BigDecimal tax = taxInPercent.multiply(price);
-      tax = tax.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
-      tax = tax.divide(new BigDecimal("20"), RoundingMode.UP);
+    for (final BigDecimal tax : this.taxes) {
+      BigDecimal taxValue = tax.multiply(price);
+      taxValue = taxValue.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
+      taxValue = taxValue.divide(new BigDecimal("20"), RoundingMode.UP);
 
-      totalTax = totalTax.add(tax);
+      totalTax = totalTax.add(taxValue);
     }
 
     return totalTax;

@@ -5,15 +5,19 @@ import java.math.RoundingMode;
 
 public abstract class AbstractTaxCalculator implements TaxCalculator {
 
+  protected abstract BigDecimal calculate(BigDecimal value);
+
   @Override
   public BigDecimal calculateTax(final BigDecimal value) {
-    /* Rounded up to the nearest 0.05 */
-    BigDecimal tax = doCalculateTax(value);
-    tax = tax.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
-    tax = tax.divide(new BigDecimal("20"), RoundingMode.UP);
-
-    return tax;
+    final BigDecimal tax = calculate(value);
+    final BigDecimal rounded = round(tax);
+    return rounded;
   }
 
-  protected abstract BigDecimal doCalculateTax(BigDecimal value);
+  protected BigDecimal round(BigDecimal value) {
+    /* Rounded up to the nearest 0.05 */
+    value = value.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
+    value = value.divide(new BigDecimal("20"), RoundingMode.UP);
+    return value;
+  }
 }

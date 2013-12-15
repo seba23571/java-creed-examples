@@ -7,24 +7,24 @@ public class Item {
 
   private final String name;
   private final BigDecimal price;
-  private final BigDecimal taxInPercent;
+  private final BigDecimal tax;
 
-  public Item(final String name, final BigDecimal price, final BigDecimal taxInPercent) {
+  public Item(final String name, final BigDecimal price, final BigDecimal tax) {
     this.name = name;
     this.price = price;
-    this.taxInPercent = taxInPercent;
+    this.tax = tax;
   }
 
-  public Item(final String name, final String price, final String taxInPercent) throws NumberFormatException {
-    this(name, new BigDecimal(price), new BigDecimal(taxInPercent));
+  public Item(final String name, final String price, final String tax) throws NumberFormatException {
+    this(name, new BigDecimal(price), new BigDecimal(tax));
   }
 
   public BigDecimal calculateTax() {
-    BigDecimal tax = taxInPercent.multiply(price);
-    tax = tax.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
-    tax = tax.divide(new BigDecimal("20"), RoundingMode.UP);
+    BigDecimal taxValue = tax.multiply(price);
+    taxValue = taxValue.multiply(new BigDecimal("20")).setScale(0, RoundingMode.UP).setScale(2);
+    taxValue = taxValue.divide(new BigDecimal("20"), RoundingMode.UP);
 
-    return tax;
+    return taxValue;
   }
 
   public String getName() {

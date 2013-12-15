@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.javacreed.examples</groupId>
-	<artifactId>making-the-best-out-of-objects</artifactId>
+	<artifactId>putting-objects-to-good-use</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Making the best out of Objects</name>
-	<url>http://www.javacreed.com/making-the-best-out-of-objects/</url>
+	<name>Putting Objects to Good Use</name>
+	<url>http://www.javacreed.com/putting-objects-to-good-use/</url>
 
 	<organization>
 		<name>Java Creed</name>
@@ -27,8 +27,22 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>*.png</exclude>
+					<exclude>*.ucls</exclude>
+				</excludes>
+			</resource>
+		</resources>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
