@@ -2,7 +2,7 @@ package com.javacreed.examples.deadlock.part2;
 
 import com.javacreed.examples.deadlock.utils.ThreadUtils;
 
-public class Example1 {
+public class Example2 {
 
   public static void main(final String[] args) throws Exception {
 
@@ -25,7 +25,24 @@ public class Example1 {
     }, "Thread-A");
     threadA.start();
 
-    /* Wait for the thread to stop */
+    final Thread threadB = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        ThreadUtils.log("Acquire lock-Y");
+        synchronized (lockY) {
+          ThreadUtils.log("Acquire lock-X");
+          synchronized (lockX) {
+            ThreadUtils.log("Both locks are acquired");
+          }
+          ThreadUtils.log("Release lock-X");
+        }
+        ThreadUtils.log("Release lock-Y");
+      }
+    }, "Thread-B");
+    threadB.start();
+
+    /* Wait for the threads to stop */
     threadA.join();
+    threadB.join();
   }
 }

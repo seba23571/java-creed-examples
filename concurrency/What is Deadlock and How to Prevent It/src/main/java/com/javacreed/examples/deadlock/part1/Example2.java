@@ -7,50 +7,50 @@ import com.javacreed.examples.deadlock.utils.ThreadUtils;
 
 public class Example2 {
 
-    public static double calculateAverage(final List<Integer> list) {
-        double total = 0;
-        for (int i = 0; i < list.size(); i++) {
-            total += list.get(i);
-            // This will cause the bug to manifest
-            ThreadUtils.silentSleep(1);
+  public static double calculateAverage(final List<Integer> list) {
+    double total = 0;
+    for (int i = 0; i < list.size(); i++) {
+      total += list.get(i);
+      // This will cause the bug to manifest
+      ThreadUtils.silentSleep(1);
+    }
+
+    return total / list.size();
+  }
+
+  public static void main(final String[] args) throws Exception {
+    final List<Integer> list = new ArrayList<>();
+    list.add(2);
+    list.add(4);
+    list.add(8);
+    list.add(10);
+
+    final Thread threadA = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        synchronized (list) {
+          final double average = Example2.calculateAverage(list);
+          ThreadUtils.log("Average: %.2f", average);
         }
+      }
+    }, "Thread-A");
+    threadA.start();
 
-        return total / list.size();
-    }
+    final Thread threadB = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        synchronized (list) {
+          for (int i = 0; i < list.size(); i++) {
+            list.set(i, list.get(i) * 2);
+          }
+        }
+      }
+    }, "Thread-B");
+    threadB.start();
 
-    public static void main(final String[] args) throws Exception {
-        final List<Integer> list = new ArrayList<>();
-        list.add(2);
-        list.add(4);
-        list.add(8);
-        list.add(10);
-
-        final Thread threadA = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (list) {
-                    final double average = Example2.calculateAverage(list);
-                    ThreadUtils.log("Average: %.2f", average);
-                }
-            }
-        }, "Thread-A");
-        threadA.start();
-
-        final Thread threadB = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (list) {
-                    for (int i = 0; i < list.size(); i++) {
-                        list.set(i, list.get(i) * 2);
-                    }
-                }
-            }
-        }, "Thread-B");
-        threadB.start();
-
-        /* Wait for the threads to stop */
-        threadA.join();
-        threadB.join();
-    }
+    /* Wait for the threads to stop */
+    threadA.join();
+    threadB.join();
+  }
 
 }
