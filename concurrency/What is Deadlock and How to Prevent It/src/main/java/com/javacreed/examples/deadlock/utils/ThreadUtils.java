@@ -1,5 +1,10 @@
 package com.javacreed.examples.deadlock.utils;
 
+/**
+ * A stateless class that contains some utilities methods.
+ * 
+ * @author Albert Attard
+ */
 public class ThreadUtils {
 
   /**
@@ -25,9 +30,12 @@ public class ThreadUtils {
    */
   public static void silentSleep(final long time) {
     try {
-      Thread.sleep(1);
+      Thread.sleep(time);
     } catch (final InterruptedException e) {
       Thread.currentThread().interrupt();
     }
+  }
+
+  private ThreadUtils() {
   }
 }
