@@ -21,9 +21,8 @@ public class ThreadUtils {
   }
 
   /**
-   * Causes the current thread to stop working for the given {@code time} in millis. Any
-   * {@link InterruptedException} are suppressed for convenience but the thread interrupted state is preserved
-   * to interrupted.
+   * Causes the current thread to stop working for the given {@code time} in millis. Any {@link InterruptedException}
+   * are suppressed for convenience but the thread interrupted state is preserved to interrupted.
    * 
    * @param time
    *          the sleep time in millis
