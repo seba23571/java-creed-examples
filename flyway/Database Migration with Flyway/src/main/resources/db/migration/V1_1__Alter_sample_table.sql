@@ -1,0 +1,2 @@
+ALTER TABLE `sample_table` 
+	ADD COLUMN surname VARCHAR(255) DEFAULT NULL;
