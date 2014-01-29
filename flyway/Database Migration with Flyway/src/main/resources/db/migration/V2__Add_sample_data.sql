@@ -1,1 +1,1 @@
-INSERT INTO `sample_table` (name, surname) VALUES ('Albert', 'Attard');
+INSERT INTO `sample_table` (name, surname) VALUES ('Albert', 'Attard'),  ('Joe', 'Borg');
