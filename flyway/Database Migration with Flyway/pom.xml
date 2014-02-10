@@ -3,7 +3,7 @@
 	<groupId>com.javacreed.examples</groupId>
 	<artifactId>database-migration-with-flyway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name></name>
+	<name>Database Migration with Flyway</name>
 
 	<organization>
 		<name>Java Creed</name>
@@ -70,4 +70,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<url>http://www.javacreed.com/database-migration-with-flyway/</url>
 </project>
