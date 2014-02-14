@@ -16,12 +16,13 @@ public class CollectionsUtilTest {
     Assert.assertEquals(0, CollectionsUtil.addInOrder(list, "2"));
     Assert.assertEquals(0, CollectionsUtil.addInOrder(list, "1"));
 
-    Assert.assertEquals(-1, CollectionsUtil.addInOrder(list, "3"));
+    Assert.assertEquals(3, CollectionsUtil.addInOrder(list, "3"));
 
-    Assert.assertEquals(3, list.size());
+    Assert.assertEquals(4, list.size());
     Assert.assertEquals("1", list.get(0));
     Assert.assertEquals("2", list.get(1));
     Assert.assertEquals("3", list.get(2));
+    Assert.assertEquals("3", list.get(3));
   }
 
 }

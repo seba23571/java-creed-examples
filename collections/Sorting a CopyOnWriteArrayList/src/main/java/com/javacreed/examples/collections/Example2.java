@@ -10,6 +10,7 @@ public class Example2 {
     CollectionsUtil.addInOrder(list, "3");
     CollectionsUtil.addInOrder(list, "2");
     CollectionsUtil.addInOrder(list, "1");
+    CollectionsUtil.addInOrder(list, "3");
 
     System.out.println(list);
   }
