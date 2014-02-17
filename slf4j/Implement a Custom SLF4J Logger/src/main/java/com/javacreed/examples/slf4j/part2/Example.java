@@ -13,16 +13,23 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  */
-package com.javacreed.examples.slf4j;
+package com.javacreed.examples.slf4j.part2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Example {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
+  // Make sure to modify the StaticLoggerBinder to use the correct logger
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
 
-    public static void main(final String[] args) {
-        Example.LOGGER.debug("Hello");
+  public static void main(final String[] args) {
+    final long startTime = System.currentTimeMillis();
+    for (int i = 0; i < 2000; i++) {
+      Example.LOGGER.debug("Hello. I'm using an asynch custom logger");
     }
+
+    final long taken = System.currentTimeMillis() - startTime;
+    System.out.println("Complete in " + taken + " milli seconds");
+  }
 }

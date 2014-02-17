@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  */
-package com.javacreed.examples.slf4j;
+package com.javacreed.examples.slf4j.part1;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -26,19 +26,19 @@ import org.slf4j.Logger;
 @ThreadSafe
 public class SimpleLoggerFactory implements ILoggerFactory {
 
-    private final ConcurrentMap<String, Logger> loggerMap = new ConcurrentHashMap<String, Logger>();
+  private final ConcurrentMap<String, Logger> loggerMap = new ConcurrentHashMap<String, Logger>();
 
-    @Override
-    public Logger getLogger(final String name) {
-        final String loggerName = name.toLowerCase();
+  @Override
+  public Logger getLogger(final String name) {
+    final String loggerName = name.toLowerCase();
 
-        final Logger logger = loggerMap.get(loggerName);
-        if (logger != null) {
-            return logger;
-        }
-
-        loggerMap.putIfAbsent(loggerName, new SimpleLogger(name));
-        return loggerMap.get(loggerName);
+    final Logger logger = loggerMap.get(loggerName);
+    if (logger != null) {
+      return logger;
     }
+
+    loggerMap.putIfAbsent(loggerName, new SimpleLogger(name));
+    return loggerMap.get(loggerName);
+  }
 
 }
