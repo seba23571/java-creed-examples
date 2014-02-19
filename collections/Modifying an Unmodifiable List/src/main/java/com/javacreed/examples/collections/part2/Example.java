@@ -1,6 +1,6 @@
 package com.javacreed.examples.collections.part2;
 
-public class Main {
+public class Example {
   public static void main(final String[] args) {
 
     final Person.Builder builder = new Person.Builder();
