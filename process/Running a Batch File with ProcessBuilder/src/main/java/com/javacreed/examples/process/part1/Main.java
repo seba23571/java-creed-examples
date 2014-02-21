@@ -9,7 +9,7 @@ public class Main {
     final File batchFile = new File("batch\\process.bat");
 
     // The output file. All activity is written to this file
-    final File outputFile = new File(String.format("output\\output_%tY%<tm%<td_%<tH%<tM%<tS.txt",
+    final File outputFile = new File(String.format("target\\output_%tY%<tm%<td_%<tH%<tM%<tS.txt",
         System.currentTimeMillis()));
 
     // The argument to the batch file.
