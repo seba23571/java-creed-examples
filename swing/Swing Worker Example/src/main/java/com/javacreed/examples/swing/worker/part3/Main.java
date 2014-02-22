@@ -1,4 +1,4 @@
-package com.javacreed.examples.swing.worker.part1_1;
+package com.javacreed.examples.swing.worker.part3;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -8,7 +8,8 @@ public class Main {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        final JFrame frame = new JFrame();
+        final Application frame = new Application();
+        frame.setTitle("Swing Worker Demo");
         frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

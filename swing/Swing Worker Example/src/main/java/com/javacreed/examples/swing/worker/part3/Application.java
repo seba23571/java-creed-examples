@@ -1,4 +1,4 @@
-package com.javacreed.examples.swing.worker.part1_3;
+package com.javacreed.examples.swing.worker.part3;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +11,7 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -50,6 +51,14 @@ public class Application extends JFrame {
 
       @Override
       public void actionPerformed(final ActionEvent e) {
+        final File dir = new File(directoryPathTextField.getText()).getAbsoluteFile();
+        final JFileChooser fileChooser = new JFileChooser(dir.getParentFile());
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        final int option = fileChooser.showOpenDialog(Application.this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+          final File selected = fileChooser.getSelectedFile();
+          directoryPathTextField.setText(selected.getAbsolutePath());
+        }
       }
     };
 
@@ -95,7 +104,7 @@ public class Application extends JFrame {
     add(new JLabel("Path: "), constraints);
 
     directoryPathTextField = new JTextField();
-    directoryPathTextField.setText("C:\\Users\\Albert\\Dropbox");
+    directoryPathTextField.setText("C:\\Users\\Albert\\Work\\JavaCreed\\examples");
     constraints = new GridBagConstraints();
     constraints.gridx = 1;
     constraints.gridy = 1;
@@ -152,7 +161,6 @@ public class Application extends JFrame {
     searchWorker.addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(final PropertyChangeEvent event) {
-        System.out.println(event);
         switch (event.getPropertyName()) {
         case "progress":
           searchProgressBar.setIndeterminate(false);
@@ -173,7 +181,6 @@ public class Application extends JFrame {
             break;
           }
           break;
-        default:
         }
       }
     });

@@ -1,4 +1,4 @@
-package com.javacreed.examples.swing.worker.part1_2;
+package com.javacreed.examples.swing.worker.part2;
 
 import java.util.List;
 
