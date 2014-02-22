@@ -1,4 +1,4 @@
-package com.javacreed.examples.swing.worker.part1_3;
+package com.javacreed.examples.swing.worker.part3;
 
 import java.io.File;
 import java.util.ArrayList;
