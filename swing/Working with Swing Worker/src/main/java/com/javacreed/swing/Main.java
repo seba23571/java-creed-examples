@@ -15,17 +15,18 @@
  */
 package com.javacreed.swing;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class Main {
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
 
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        Application application = new Application();
-        application.setDefaultCloseOperation(Application.EXIT_ON_CLOSE);
+        final Application application = new Application();
+        application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         application.setTitle("Working with Swing Worker");
         application.setSize(600, 400);
         application.setVisible(true);
