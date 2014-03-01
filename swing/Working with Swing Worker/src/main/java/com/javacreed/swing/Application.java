@@ -31,7 +31,8 @@ public class Application extends JFrame {
 
 	private JTextArea messages;
 	private JProgressBar progressBar;
-	private JButton button;
+	private JButton run;
+	private JButton cancel;
 
 	public Application() {
 		initComponents();
@@ -42,7 +43,7 @@ public class Application extends JFrame {
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(2, 2, 2, 2);
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 3;
 		constraints.weightx = 1;
 		constraints.weighty = 1;
 		constraints.fill = GridBagConstraints.BOTH;
@@ -58,12 +59,19 @@ public class Application extends JFrame {
 		constraints.fill = GridBagConstraints.BOTH;
 		add(progressBar, constraints);
 
-		button = new JButton("Run");
+		run = new JButton("Run");
 		constraints = new GridBagConstraints();
 		constraints.insets = new Insets(2, 2, 2, 2);
 		constraints.gridx = 1;
 		constraints.gridy = 1;
-		add(button, constraints);
+		add(run, constraints);
+
+		cancel = new JButton("Cancel");
+		constraints = new GridBagConstraints();
+		constraints.insets = new Insets(2, 2, 2, 2);
+		constraints.gridx = 2;
+		constraints.gridy = 1;
+		add(cancel, constraints);
 	}
 }
 
