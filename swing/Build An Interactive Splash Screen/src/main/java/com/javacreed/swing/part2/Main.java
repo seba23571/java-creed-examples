@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  */
-package com.javacreed.swing;
+package com.javacreed.swing.part2;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -27,14 +27,15 @@ public class Main {
       public void run() {
         try {
           final InteractiveSplashScreen splashScreen = new InteractiveSplashScreen();
+          splashScreen.setBlinkVisible(true);
 
-          splashScreen.setProgress(0.2, "Loading data...");
-          Thread.sleep(1000);
+          // Simulate a long loading application
+          for (double p = 0.1; p < 0.8; p += 0.1) {
+            splashScreen.setProgress(p, "Loading...");
+            Thread.sleep(1000);
+          }
 
-          splashScreen.setProgress(0.3, "Loading more data...");
-          Thread.sleep(1000);
-
-          splashScreen.setProgress(0.8, "Loading application...");
+          splashScreen.setProgress(0.9, "Starting application...");
           final JFrame application = new JFrame();
           application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
           application.setTitle("Build An Interactive Splash Screen");

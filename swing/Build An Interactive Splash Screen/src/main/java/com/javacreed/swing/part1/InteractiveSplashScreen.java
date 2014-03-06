@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  */
-package com.javacreed.swing;
+package com.javacreed.swing.part1;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -21,25 +21,17 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.SplashScreen;
-import java.util.Objects;
 
 public class InteractiveSplashScreen {
 
   private final SplashScreen splashScreen = SplashScreen.getSplashScreen();
 
-  private Font font = new Font("Arial", Font.PLAIN, 14);
-  private Color colour = Color.WHITE;
-
-  public void setColour(final Color colour) {
-    this.colour = Objects.requireNonNull(colour);
-  }
-
-  public void setFont(final Font font) {
-    this.font = Objects.requireNonNull(font);
-  }
+  private volatile Font font = new Font("Arial", Font.PLAIN, 14);
+  private volatile Color colour = Color.WHITE;
 
   public void setProgress(final double progress, final String message) {
-    if (splashScreen != null) {
+    if (splashScreen != null && splashScreen.isVisible()) {
+
       final Dimension size = splashScreen.getSize();
       final Graphics2D g = splashScreen.createGraphics();
       g.setComposite(AlphaComposite.Clear);
@@ -47,7 +39,7 @@ public class InteractiveSplashScreen {
       g.setPaintMode();
       g.setColor(colour);
 
-      final int progressWidth = (int) ((size.width - 22) * progress);
+      final int progressWidth = Math.max((int) ((size.width - 22) * progress) - 5, 0);
 
       g.drawRect(10, size.height - 50, size.width - 20, 30);
       g.fillRect(12, size.height - 48, progressWidth, 27);
