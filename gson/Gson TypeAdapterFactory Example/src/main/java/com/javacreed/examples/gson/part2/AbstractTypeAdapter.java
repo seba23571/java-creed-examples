@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 public abstract class AbstractTypeAdapter<T> extends TypeAdapter<T> {
@@ -36,7 +37,17 @@ public abstract class AbstractTypeAdapter<T> extends TypeAdapter<T> {
     typeAdapter.write(out, object);
   }
 
+  @Override
+  public T read(final JsonReader in) throws IOException {
+    throw new UnsupportedOperationException("Method not implemented");
+  }
+
   public void setGson(final Gson gson) {
     this.gson = gson;
+  }
+
+  @Override
+  public void write(final JsonWriter out, final T value) throws IOException {
+    throw new UnsupportedOperationException("Method not implemented");
   }
 }
