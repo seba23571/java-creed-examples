@@ -31,20 +31,16 @@ public class BookTypeAdapter extends TypeAdapter<Book> {
   @Override
   public void write(final JsonWriter out, final Book book) throws IOException {
     out.beginObject();
-    out.name("isbn");
-    out.value(book.getIsbn());
-    out.name("title");
-    out.value(book.getTitle());
+    out.name("isbn").value(book.getIsbn());
+    out.name("title").value(book.getTitle());
 
     out.name("authors");
     out.beginArray();
     for (final Author author : book.getAuthors()) {
       // Cannot delegate to context
       out.beginObject();
-      out.name("id");
-      out.value(author.getId());
-      out.name("name");
-      out.value(author.getName());
+      out.name("id").value(author.getId());
+      out.name("name").value(author.getName());
       out.endObject();
     }
     out.endArray();
