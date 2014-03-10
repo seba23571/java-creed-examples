@@ -23,8 +23,11 @@ import com.google.gson.GsonBuilder;
 public class Main {
   public static void main(final String[] args) throws IOException {
     // Configure GSON
+    final DataTypeAdapterFactory.Builder dtafBuilder = new DataTypeAdapterFactory.Builder();
+    dtafBuilder.add(Book.class, new BookTypeAdapter());
+
     final GsonBuilder gsonBuilder = new GsonBuilder();
-    gsonBuilder.registerTypeAdapterFactory(new DataTypeAdapterFactory());
+    gsonBuilder.registerTypeAdapterFactory(dtafBuilder.build());
     gsonBuilder.setPrettyPrinting();
 
     final Gson gson = gsonBuilder.create();

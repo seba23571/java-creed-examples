@@ -17,23 +17,15 @@ package com.javacreed.examples.gson.part2;
 
 import java.io.IOException;
 
-import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 public class BookTypeAdapter extends AbstractTypeAdapter<Book> {
 
   @Override
-  public Book read(final JsonReader in) throws IOException {
-    throw new UnsupportedOperationException("Coming soon");
-  }
-
-  @Override
   public void write(final JsonWriter out, final Book book) throws IOException {
     out.beginObject();
-    out.name("isbn");
-    out.value(book.getIsbn());
-    out.name("title");
-    out.value(book.getTitle());
+    out.name("isbn").value(book.getIsbn());
+    out.name("title").value(book.getTitle());
 
     out.name("authors");
     out.beginArray();
