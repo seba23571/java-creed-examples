@@ -13,38 +13,19 @@
  * License for the specific language governing permissions and limitations 
  * under the License.
  */
-package com.javacreed.examples.gson.part1;
+package com.javacreed.examples.gson.part4;
 
-public class Author {
+import java.io.IOException;
 
-  private int id;
-  private String name;
+import com.google.gson.stream.JsonWriter;
 
-  public Author() {}
-
-  public Author(final int id, final String name) {
-    this.id = id;
-    this.name = name;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setId(final int id) {
-    this.id = id;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
-  }
+public class ATypeAdapter extends AbstractTypeAdapter<A> {
 
   @Override
-  public String toString() {
-    return String.format("[%d] %s", id, name);
+  public void write(final JsonWriter out, final A object) throws IOException {
+    out.beginObject();
+    out.name("type").value(object.getClass().getCanonicalName());
+    out.endObject();
   }
+
 }
