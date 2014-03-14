@@ -35,9 +35,11 @@ public class Main {
     book.setIsbn("978-0321336781");
 
     final String json = gson.toJson(book);
+    System.out.println("Serialise");
     System.out.println(json);
 
     final Book parsedBook = gson.fromJson(json, Book.class);
+    System.out.println("\nDeserialised");
     System.out.println(parsedBook);
   }
 }
