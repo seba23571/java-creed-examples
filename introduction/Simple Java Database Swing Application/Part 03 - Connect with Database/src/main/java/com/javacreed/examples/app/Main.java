@@ -15,9 +15,15 @@
  */
 package com.javacreed.examples.app;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Main {
 
-  public static void main(final String[] args) {
-    System.out.println("Hello :)");
+  public static void main(final String[] args) throws SQLException {
+    try (Connection connection = DriverManager.getConnection("jdbc:h2:target/db", "sd", "")) {
+      System.out.println("Connected");
+    }
   }
 }
