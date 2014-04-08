@@ -42,6 +42,7 @@ public class Contact {
     try (Connection connection = DbHelper.getConnection(); PreparedStatement pstmt = connection.prepareStatement(sql)) {
       pstmt.setString(1, name);
       pstmt.setString(2, contacts);
+      pstmt.execute();
     }
   }
 
