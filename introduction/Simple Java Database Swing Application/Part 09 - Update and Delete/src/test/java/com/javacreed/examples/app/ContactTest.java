@@ -60,6 +60,8 @@ public class ContactTest {
 
       contacts = ContactsHelper.getInstance().getContacts();
       Assert.assertEquals(2, contacts.size());
+      Assert.assertEquals(1L, contacts.get(0).getId());
+      Assert.assertEquals(3L, contacts.get(1).getId());
     }
   }
 
@@ -92,6 +94,10 @@ public class ContactTest {
     // Update the contact an save again. This should cause an update and not insert the same record twice
     c.setName("Attard Albert");
     c.save();
+    
+    Assert.assertEquals(1L, c.getId());
+    Assert.assertEquals("Attard Albert", c.getName());
+    Assert.assertEquals("albert@javacreed.com", c.getContacts());
 
     final List<Contact> contacts = ContactsHelper.getInstance().getContacts();
     Assert.assertEquals(1, contacts.size());
