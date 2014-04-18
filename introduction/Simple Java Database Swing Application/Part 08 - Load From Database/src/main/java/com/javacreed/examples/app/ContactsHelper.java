@@ -34,6 +34,9 @@ public class ContactsHelper {
   public static ContactsHelper getInstance() {
     return ContactsHelper.INSTANCE;
   }
+  
+  private ContactsHelper(){
+  }
 
   public List<Contact> getContacts() throws SQLException {
     ContactsHelper.LOGGER.debug("Loading contacts");
