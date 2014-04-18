@@ -38,7 +38,7 @@ public class Main {
         app.setTitle("Simple Java Database Swing Application");
         app.setSize(800, 600);
         app.setLocationRelativeTo(null);
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        app.setDefaultCloseOperation(Application.EXIT_ON_CLOSE);
         app.setVisible(true);
 
         // app.addWindowListener(new WindowAdapter() {
