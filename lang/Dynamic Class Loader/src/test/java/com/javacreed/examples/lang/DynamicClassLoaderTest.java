@@ -1,8 +1,10 @@
-package com.javacreed.api.dcl;
+package com.javacreed.examples.lang;
 
 import java.lang.reflect.Method;
 
 import org.junit.Test;
+
+import com.javacreed.examples.lang.DynamicClassLoader;
 
 public class DynamicClassLoaderTest {
 
