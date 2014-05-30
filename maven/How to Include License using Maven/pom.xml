@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.javacreed.examples</groupId>
+	<artifactId>how-to-include-license-using-maven</artifactId>
+	<name>How to Include License using Maven</name>
+	<url>http://www.javacreed.com/how-to-include-license-using-maven/</url>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<inceptionYear>${project.inceptionYear}</inceptionYear>
+	<organization>
+		<name>${project.organization.name}</name>
+		<url>${project.organization.url}</url>
+	</organization>
+
+	<properties>
+		<project.inceptionYear>2012</project.inceptionYear>
+		<project.organization.name>Java Creed</project.organization.name>
+		<project.organization.url>http://www.javacreed.com/</project.organization.url>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<verbose>false</verbose>
+					<addSvnKeyWords>true</addSvnKeyWords>
+				</configuration>
+				<executions>
+					<execution>
+						<id>first</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<addSvnKeyWords>true</addSvnKeyWords>
+							<licenseName>apache_v2</licenseName>
+							<roots>
+								<root>src/main</root>
+								<root>src/test</root>
+							</roots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
