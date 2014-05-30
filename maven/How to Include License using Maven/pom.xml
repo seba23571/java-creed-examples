@@ -45,11 +45,13 @@
 						<id>first</id>
 						<goals>
 							<goal>update-file-header</goal>
+							<goal>add-third-party</goal>
 						</goals>
 						<phase>process-sources</phase>
 						<configuration>
-							<addSvnKeyWords>true</addSvnKeyWords>
+							<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
 							<licenseName>apache_v2</licenseName>
+							<sortArtifactByName>true</sortArtifactByName>
 							<roots>
 								<root>src/main</root>
 								<root>src/test</root>
