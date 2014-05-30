@@ -3,7 +3,7 @@ package com.javacreed.examples.maven;
 /*
  * #%L
  * How to Include License using Maven
- * $Id:$
+ * $Id$
  * $HeadURL:$
  * %%
  * Copyright (C) 2012 - 2014 Java Creed
