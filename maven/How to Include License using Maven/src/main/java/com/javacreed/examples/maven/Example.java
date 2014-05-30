@@ -1,5 +1,3 @@
-package com.javacreed.examples.maven;
-
 /*
  * #%L
  * How to Include License using Maven
@@ -21,10 +19,14 @@ package com.javacreed.examples.maven;
  * limitations under the License.
  * #L%
  */
+package com.javacreed.examples.maven;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class Example {
 
     public static void main(final String[] args) {
-        System.out.println("Hello :)");
+        final String message = null;
+        System.out.println(StringUtils.defaultIfBlank(message, "Hello :)"));
     }
 }
