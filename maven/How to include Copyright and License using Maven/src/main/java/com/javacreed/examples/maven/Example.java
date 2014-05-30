@@ -1,8 +1,8 @@
 /*
  * #%L
  * How to Include License using Maven
- * $Id$
- * $HeadURL:$
+ * $Id: Example.java 340 2014-05-30 19:01:31Z albertattard@gmail.com $
+ * $HeadURL$
  * %%
  * Copyright (C) 2012 - 2014 Java Creed
  * %%
