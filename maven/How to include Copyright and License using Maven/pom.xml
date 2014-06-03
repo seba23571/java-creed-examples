@@ -4,10 +4,10 @@
 
 	<groupId>com.javacreed.examples</groupId>
 	<artifactId>how-to-include-copyright-and-license-using-maven</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>How to include Copyright and License using Maven</name>
 	<url>http://www.javacreed.com/how-to-include-copyright-and-license-using-maven/</url>
-	<version>0.0.1-SNAPSHOT</version>
-
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
 	<organization>
 		<name>${project.organization.name}</name>
@@ -61,6 +61,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
