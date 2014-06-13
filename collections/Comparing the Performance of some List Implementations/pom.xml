@@ -1,12 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.javacreed.examples</groupId>
-	<artifactId>collections-performance</artifactId>
+	<artifactId>comparing-the-performance-of-some-list-implementations</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<name>Comparing the Performance of some List Implementations</name>
+	<url>http://www.javacreed.com/comparing-the-performance-of-some-list-implementations/</url>
+	<inceptionYear>${project.inceptionYear}</inceptionYear>
+	<organization>
+		<name>${project.organization.name}</name>
+		<url>${project.organization.url}</url>
+	</organization>
+
 	<properties>
+		<project.inceptionYear>2012</project.inceptionYear>
+		<project.organization.name>Java Creed</project.organization.name>
+		<project.organization.url>http://www.javacreed.com/</project.organization.url>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
