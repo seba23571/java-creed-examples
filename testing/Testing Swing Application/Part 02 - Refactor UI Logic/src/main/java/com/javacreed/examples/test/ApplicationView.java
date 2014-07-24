@@ -93,7 +93,7 @@ public class ApplicationView extends JFrame implements View {
   }
 
   @Override
-  public File showOpenFileChoser(final File selectedFile) {
+  public File showOpenFileChooser(final File selectedFile) {
     final JFileChooser fileChooser = new JFileChooser();
     fileChooser.setSelectedFile(selectedFile);
     if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {

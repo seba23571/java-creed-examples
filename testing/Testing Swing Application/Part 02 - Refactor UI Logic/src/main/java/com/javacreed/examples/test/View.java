@@ -29,7 +29,7 @@ public interface View {
 
   void showMessage(String title, String message);
 
-  File showOpenFileChoser(File currentFile);
+  File showOpenFileChooser(File currentFile);
 
   void showWarning(String title, String message);
 
