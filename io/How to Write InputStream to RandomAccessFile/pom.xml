@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<name>How to Write InputStream to RandomAccessFile</name>
-	<url>http://www.javacreed.com/how-to-write-inputStream-to-randomaccessfile/</url>
+	<url>http://www.javacreed.com/how-to-write-inputstream-to-randomaccessfile/</url>
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
 	<organization>
 		<name>${project.organization.name}</name>
