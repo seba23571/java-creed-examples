@@ -63,7 +63,7 @@ public abstract class AbstractCsvWithHeaderTypeAdapter<T> extends AbstractCsvTyp
 
     @Override
     public void write(final CsvWriter out, final T value) throws CsvException, IOException {
-      writeHeaders(out, value);
+      writeHeaders(out);
       rowDelegator.write(out, value);
       typeAdapter = rowDelegator;
     };
@@ -107,6 +107,12 @@ public abstract class AbstractCsvWithHeaderTypeAdapter<T> extends AbstractCsvTyp
 
       return processLine(rowData);
     }
+
+    @Override
+    public void write(final CsvWriter out, final T value) throws CsvException, IOException,
+        UnsupportedOperationException {
+      writeValue(out, value);
+    }
   };
 
   private CsvTypeAdapter<T> typeAdapter = headerDelegator;
@@ -123,8 +129,13 @@ public abstract class AbstractCsvWithHeaderTypeAdapter<T> extends AbstractCsvTyp
     typeAdapter.write(out, value);
   }
 
-  protected void writeHeaders(final CsvWriter out, final T value) throws CsvException, IOException,
-      UnsupportedOperationException {
+  protected void writeHeaders(final CsvWriter out) throws CsvException, IOException, UnsupportedOperationException {
     throw new UnsupportedOperationException();
   }
+
+  protected void writeValue(final CsvWriter out, final T value) throws CsvException, IOException,
+      UnsupportedOperationException {
+    throw new UnsupportedOperationException();
+  };
+
 }
