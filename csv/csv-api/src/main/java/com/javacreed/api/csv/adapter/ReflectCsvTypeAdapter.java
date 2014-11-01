@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -193,7 +194,7 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
       final FieldsValuesSetter<T> fieldsValuesSetter, final Map<String, Field> fieldsByName) {
     this.instanceCreator = Objects.requireNonNull(instanceCreator);
     this.fieldsValuesSetter = Objects.requireNonNull(fieldsValuesSetter);
-    this.fieldsByName = new HashMap<>(Objects.requireNonNull(fieldsByName));
+    this.fieldsByName = new LinkedHashMap<>(Objects.requireNonNull(fieldsByName));
   }
 
   @Override
@@ -212,10 +213,56 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
   }
 
   @Override
-  protected void writeHeaders(final CsvWriter out, final T value) throws CsvException, IOException,
+  protected void writeHeaders(final CsvWriter out) throws CsvException, IOException, UnsupportedOperationException {
+    out.beginLine();
+    for (final String name : fieldsByName.keySet()) {
+      out.writeValue(name);
+    }
+    out.endLine();
+  }
+
+  @Override
+  protected void writeValue(final CsvWriter out, final T object) throws CsvException, IOException,
       UnsupportedOperationException {
-    // TODO: think about this
-    throw new UnsupportedOperationException();
+    out.beginLine();
+    for (final Entry<String, Field> entry : fieldsByName.entrySet()) {
+      final Field field = entry.getValue();
+
+      final boolean accessible = field.isAccessible();
+      try {
+        field.setAccessible(true);
+        final Class<?> fieldType = field.getType();
+        String value;
+        if (fieldType == Byte.TYPE) {
+          value = String.valueOf(field.getByte(object));
+        } else if (fieldType == Short.TYPE) {
+          value = String.valueOf(field.getShort(object));
+        } else if (fieldType == Integer.TYPE) {
+          value = String.valueOf(field.getInt(object));
+        } else if (fieldType == Long.TYPE) {
+          value = String.valueOf(field.getLong(object));
+        } else if (fieldType == Float.TYPE) {
+          value = String.valueOf(field.getFloat(object));
+        } else if (fieldType == Double.TYPE) {
+          value = String.valueOf(field.getDouble(object));
+        } else if (fieldType == String.class) {
+          value = (String) field.get(object);
+        } else {
+          // TODO: need to support more types such as date. Also we need to be more pluggable and allow the user to
+          // specify how each field is to be parsed
+          throw new CsvException("Unsupported field type: " + fieldType.getCanonicalName());
+        }
+
+        out.writeValue(value);
+
+      } catch (IllegalAccessException | RuntimeException e) {
+        throw CsvException.handle("Failed to set the value: '" + object + "' to field " + field.getName(), e);
+      } finally {
+        field.setAccessible(accessible);
+      }
+
+    }
+    out.endLine();
   }
 
 }
