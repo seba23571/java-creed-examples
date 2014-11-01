@@ -39,6 +39,7 @@ import java.util.Map.Entry;
 import com.javacreed.api.csv.adapter.CsvTypeAdapter;
 import com.javacreed.api.csv.adapter.CsvTypeAdapterFactory;
 import com.javacreed.api.csv.adapter.ReflectCsvTypeAdapter;
+import com.javacreed.api.csv.adapter.ReflectCsvTypeAdapter.CsvFieldAdapter;
 import com.javacreed.api.csv.stream.AppendableCsvWriter;
 import com.javacreed.api.csv.stream.CsvReader;
 import com.javacreed.api.csv.stream.CsvReaderFactory;
@@ -55,6 +56,8 @@ public class Csv {
 
     private final Map<Class<?>, CsvTypeAdapter<?>> typeAdapters = new LinkedHashMap<>();
     private final Map<Class<?>, CsvTypeAdapterFactory<?>> typeAdaptersFactories = new LinkedHashMap<>();;
+
+    private final Map<Class<?>, CsvFieldAdapter> fieldsAdapters = new HashMap<>();
 
     public Csv build() {
       return new Csv(this);
@@ -82,6 +85,8 @@ public class Csv {
   private final Map<Class<?>, CsvTypeAdapter<?>> typeAdapters;
   private final Map<Class<?>, CsvTypeAdapterFactory<?>> typeAdaptersFactories;
 
+  private final Map<Class<?>, CsvFieldAdapter> fieldsAdapters;
+
   public Csv() {
     this(new Builder());
   }
@@ -91,6 +96,14 @@ public class Csv {
     this.typeAdaptersFactories = Collections.unmodifiableMap(new HashMap<>(builder.typeAdaptersFactories));
     this.csvReaderFactory = builder.csvReaderFactory;
     this.csvWriterFactory = builder.csvWriterFactory;
+    this.fieldsAdapters = Collections.unmodifiableMap(new HashMap<>(builder.fieldsAdapters));
+  }
+
+  protected <T> CsvTypeAdapter<T> createDefaultTypeAdapter(final Class<T> type) {
+    final ReflectCsvTypeAdapter.Builder<T> builder = new ReflectCsvTypeAdapter.Builder<T>();
+    builder.useDefaults(type);
+    builder.setFieldAdapters(fieldsAdapters);
+    return builder.build();
   }
 
   public <T> List<T> fromCsv(final CsvReader in, final Class<T> type) {
@@ -157,7 +170,7 @@ public class Csv {
       }
     }
 
-    return new ReflectCsvTypeAdapter.Builder<T>().useDefaults(type).build();
+    return createDefaultTypeAdapter(type);
   }
 
   private CsvException handleException(final Throwable e) {

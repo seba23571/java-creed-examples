@@ -35,6 +35,38 @@ public class Person {
     this.age = age;
   }
 
+  @Override
+  public boolean equals(final Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (object == null) {
+      return false;
+    }
+    if (getClass() != object.getClass()) {
+      return false;
+    }
+    final Person other = (Person) object;
+    if (age != other.age) {
+      return false;
+    }
+    if (name == null) {
+      if (other.name != null) {
+        return false;
+      }
+    } else if (!name.equals(other.name)) {
+      return false;
+    }
+    if (surname == null) {
+      if (other.surname != null) {
+        return false;
+      }
+    } else if (!surname.equals(other.surname)) {
+      return false;
+    }
+    return true;
+  }
+
   public int getAge() {
     return age;
   }
@@ -45,6 +77,16 @@ public class Person {
 
   public String getSurname() {
     return surname;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + age;
+    result = prime * result + (name == null ? 0 : name.hashCode());
+    result = prime * result + (surname == null ? 0 : surname.hashCode());
+    return result;
   }
 
   public void setAge(final int age) {

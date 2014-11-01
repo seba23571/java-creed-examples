@@ -39,17 +39,17 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
 
   public static class Builder<E> {
     private InstanceCreator<E> instanceCreator;
-    private FieldsValuesSetter<E> fieldsValuesSetter;
     private FieldsNamesTranslator fieldsNamesTranslator;
     private Map<String, Field> fieldsByName;
+    private final Map<Class<?>, CsvFieldAdapter> fieldsAdapters = new HashMap<>();
+
+    public Builder() {
+      setDefaultFieldsAdapters();
+    }
 
     public ReflectCsvTypeAdapter<E> build() {
       if (instanceCreator == null) {
         throw new CsvException("Instance creator is not set");
-      }
-
-      if (fieldsValuesSetter == null) {
-        throw new CsvException("Fields values setter is not set");
       }
 
       if (fieldsNamesTranslator == null && fieldsByName == null) {
@@ -60,16 +60,27 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
         fieldsByName = fieldsNamesTranslator.getFieldsByNameMap();
       }
 
-      return new ReflectCsvTypeAdapter<>(instanceCreator, fieldsValuesSetter, fieldsByName);
+      return new ReflectCsvTypeAdapter<>(instanceCreator, fieldsByName, fieldsAdapters);
+    }
+
+    private void setDefaultFieldsAdapters() {
+      fieldsAdapters.put(Byte.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_BYTE_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(Short.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_SHORT_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(Integer.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_INT_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(Long.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_LONG_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(Float.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_FLOAT_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(Double.TYPE, ReflectCsvTypeAdapter.PRIMITIVE_DOUBLE_CSV_FIELD_ADAPTER);
+      fieldsAdapters.put(String.class, ReflectCsvTypeAdapter.STRING_CSV_FIELD_ADAPTER);
+    }
+
+    public Builder<E> setFieldAdapters(final Map<Class<?>, CsvFieldAdapter> fieldsAdapters) {
+      Objects.requireNonNull(fieldsAdapters);
+      this.fieldsAdapters.putAll(fieldsAdapters);
+      return this;
     }
 
     public Builder<E> setFieldsNamesTranslator(final FieldsNamesTranslator fieldsNamesTranslator) {
       this.fieldsNamesTranslator = Objects.requireNonNull(fieldsNamesTranslator);
-      return this;
-    }
-
-    public Builder<E> setFieldsValuesSetter(final FieldsValuesSetter<E> fieldsValuesSetter) {
-      this.fieldsValuesSetter = Objects.requireNonNull(fieldsValuesSetter);
       return this;
     }
 
@@ -78,13 +89,27 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
       return this;
     }
 
+    public <T> Builder<E> setValueAdapter(final Class<T> type, final CsvFieldAdapter adapter) {
+      Objects.requireNonNull(type);
+      Objects.requireNonNull(adapter);
+      fieldsAdapters.put(type, adapter);
+      return this;
+    }
+
     public Builder<E> useDefaults(final Class<E> type) {
       Objects.requireNonNull(type);
       setInstanceCreator(new DefaultInstanceCreator<E>(type));
-      setFieldsValuesSetter(new DefaultFieldsValuesSetter<E>());
       setFieldsNamesTranslator(new DefaultFieldsNamesTranslater(type));
+      setDefaultFieldsAdapters();
       return this;
     }
+  }
+
+  public interface CsvFieldAdapter {
+
+    String getValue(Field field, Object object) throws IllegalAccessException;
+
+    void setValue(Field field, Object object, String text) throws IllegalAccessException;
   }
 
   private static class DefaultFieldsNamesTranslater implements FieldsNamesTranslator {
@@ -110,41 +135,6 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
     @Override
     public Map<String, Field> getFieldsByNameMap() {
       return fieldsByName;
-    }
-  }
-
-  private static class DefaultFieldsValuesSetter<E> implements FieldsValuesSetter<E> {
-    @Override
-    public void setValue(final Field field, final E object, final String value) {
-      final boolean accessible = field.isAccessible();
-      try {
-        field.setAccessible(true);
-        final Class<?> fieldType = field.getType();
-        if (fieldType == Byte.TYPE) {
-          field.setByte(object, Byte.parseByte(value));
-        } else if (fieldType == Short.TYPE) {
-          field.setShort(object, Short.parseShort(value));
-        } else if (fieldType == Integer.TYPE) {
-          field.setInt(object, Integer.parseInt(value));
-        } else if (fieldType == Long.TYPE) {
-          field.setLong(object, Long.parseLong(value));
-        } else if (fieldType == Float.TYPE) {
-          field.setFloat(object, Float.parseFloat(value));
-        } else if (fieldType == Double.TYPE) {
-          field.setDouble(object, Double.parseDouble(value));
-        } else if (fieldType == String.class) {
-          field.set(object, value);
-        } else {
-          // TODO: need to support more types such as date. Also we need to be more pluggable and allow the user to
-          // specify how each field is to be parsed
-          throw new CsvException("Unsupported field type: " + fieldType.getCanonicalName());
-        }
-
-      } catch (IllegalAccessException | RuntimeException e) {
-        throw CsvException.handle("Failed to set the value: '" + value + "' to field " + field.getName(), e);
-      } finally {
-        field.setAccessible(accessible);
-      }
     }
   }
 
@@ -178,23 +168,114 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
     Map<String, Field> getFieldsByNameMap();
   }
 
-  public interface FieldsValuesSetter<E> {
-    void setValue(Field field, E t, String value);
-  }
-
   public interface InstanceCreator<E> {
     E createInstance();
   }
 
-  private final InstanceCreator<T> instanceCreator;
-  private final FieldsValuesSetter<T> fieldsValuesSetter;
-  private final Map<String, Field> fieldsByName;
+  private static final CsvFieldAdapter STRING_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return (String) field.get(object);
+    }
 
-  public ReflectCsvTypeAdapter(final InstanceCreator<T> instanceCreator,
-      final FieldsValuesSetter<T> fieldsValuesSetter, final Map<String, Field> fieldsByName) {
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.set(object, text);
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_BYTE_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getByte(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setByte(object, Byte.parseByte(text));
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_SHORT_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getShort(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setShort(object, Short.parseShort(text));
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_LONG_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getLong(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setLong(object, Long.parseLong(text));
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_FLOAT_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getFloat(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setFloat(object, Float.parseFloat(text));
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_DOUBLE_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getDouble(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setDouble(object, Double.parseDouble(text));
+    }
+  };
+
+  private static final CsvFieldAdapter PRIMITIVE_INT_CSV_FIELD_ADAPTER = new CsvFieldAdapter() {
+    @Override
+    public String getValue(final Field field, final Object object) throws IllegalAccessException {
+      return String.valueOf(field.getInt(object));
+    }
+
+    @Override
+    public void setValue(final Field field, final Object object, final String text) throws NumberFormatException,
+        IllegalArgumentException, IllegalAccessException {
+      field.setInt(object, Integer.parseInt(text));
+    }
+  };
+
+  private final InstanceCreator<T> instanceCreator;
+  private final Map<String, Field> fieldsByName;
+  private final Map<Class<?>, CsvFieldAdapter> fieldsAdapters;
+
+  public ReflectCsvTypeAdapter(final InstanceCreator<T> instanceCreator, final Map<String, Field> fieldsByName,
+      final Map<Class<?>, CsvFieldAdapter> fieldsAdapters) {
     this.instanceCreator = Objects.requireNonNull(instanceCreator);
-    this.fieldsValuesSetter = Objects.requireNonNull(fieldsValuesSetter);
     this.fieldsByName = new LinkedHashMap<>(Objects.requireNonNull(fieldsByName));
+    this.fieldsAdapters = new HashMap<>(Objects.requireNonNull(fieldsAdapters));
+  }
+
+  protected CsvFieldAdapter findFieldAdapter(final Class<?> fieldType) {
+    return fieldsAdapters.get(fieldType);
   }
 
   @Override
@@ -205,7 +286,22 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
       final String columnName = entry.getKey();
       if (rowData.containsHeader(columnName)) {
         final String value = rowData.getValue(columnName);
-        fieldsValuesSetter.setValue(entry.getValue(), t, value);
+        final Field field = entry.getValue();
+        final boolean accessible = field.isAccessible();
+        try {
+          field.setAccessible(true);
+          final Class<?> fieldType = field.getType();
+          final CsvFieldAdapter fieldAdapter = findFieldAdapter(fieldType);
+          if (fieldAdapter == null) {
+            throw new CsvException("Unsupported field type: " + fieldType.getCanonicalName());
+          }
+          fieldAdapter.setValue(entry.getValue(), t, value);
+        } catch (IllegalAccessException | RuntimeException e) {
+          throw CsvException.handle("Failed to set the value: '" + value + "' to field " + field.getName(), e);
+        } finally {
+          field.setAccessible(accessible);
+        }
+
       }
     }
 
@@ -222,7 +318,7 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
   }
 
   @Override
-  protected void writeValue(final CsvWriter out, final T object) throws CsvException, IOException,
+  protected void writeValues(final CsvWriter out, final T object) throws CsvException, IOException,
       UnsupportedOperationException {
     out.beginLine();
     for (final Entry<String, Field> entry : fieldsByName.entrySet()) {
@@ -232,29 +328,13 @@ public class ReflectCsvTypeAdapter<T> extends AbstractCsvWithHeaderTypeAdapter<T
       try {
         field.setAccessible(true);
         final Class<?> fieldType = field.getType();
-        String value;
-        if (fieldType == Byte.TYPE) {
-          value = String.valueOf(field.getByte(object));
-        } else if (fieldType == Short.TYPE) {
-          value = String.valueOf(field.getShort(object));
-        } else if (fieldType == Integer.TYPE) {
-          value = String.valueOf(field.getInt(object));
-        } else if (fieldType == Long.TYPE) {
-          value = String.valueOf(field.getLong(object));
-        } else if (fieldType == Float.TYPE) {
-          value = String.valueOf(field.getFloat(object));
-        } else if (fieldType == Double.TYPE) {
-          value = String.valueOf(field.getDouble(object));
-        } else if (fieldType == String.class) {
-          value = (String) field.get(object);
-        } else {
-          // TODO: need to support more types such as date. Also we need to be more pluggable and allow the user to
-          // specify how each field is to be parsed
+        final CsvFieldAdapter fieldAdapter = findFieldAdapter(fieldType);
+        if (fieldAdapter == null) {
           throw new CsvException("Unsupported field type: " + fieldType.getCanonicalName());
         }
 
+        final String value = fieldAdapter.getValue(field, object);
         out.writeValue(value);
-
       } catch (IllegalAccessException | RuntimeException e) {
         throw CsvException.handle("Failed to set the value: '" + object + "' to field " + field.getName(), e);
       } finally {

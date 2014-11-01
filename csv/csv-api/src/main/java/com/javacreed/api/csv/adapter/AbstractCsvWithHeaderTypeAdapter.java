@@ -111,7 +111,7 @@ public abstract class AbstractCsvWithHeaderTypeAdapter<T> extends AbstractCsvTyp
     @Override
     public void write(final CsvWriter out, final T value) throws CsvException, IOException,
         UnsupportedOperationException {
-      writeValue(out, value);
+      writeValues(out, value);
     }
   };
 
@@ -133,7 +133,7 @@ public abstract class AbstractCsvWithHeaderTypeAdapter<T> extends AbstractCsvTyp
     throw new UnsupportedOperationException();
   }
 
-  protected void writeValue(final CsvWriter out, final T value) throws CsvException, IOException,
+  protected void writeValues(final CsvWriter out, final T value) throws CsvException, IOException,
       UnsupportedOperationException {
     throw new UnsupportedOperationException();
   };

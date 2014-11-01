@@ -19,30 +19,34 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.api.csv.swing;
+package com.javacreed.api.csv;
 
-import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public class SwingExperiment {
+import com.javacreed.api.common.Person;
+
+public class CsvTest {
 
   @Test
-  private void test() {
+  public void test() {
+    final Csv csv = new Csv();
 
-    final TableModel tableModel = new DefaultTableModel();
+    final List<Person> persons = new ArrayList<>();
+    persons.add(new Person("Albert", "Attard", 18));
+    persons.add(new Person("Mary", "Borg", 19));
+    persons.add(new Person("Joe", "Borg", 20));
 
-    final SwingWorker<Integer, Object> worker = new SwingWorker<Integer, Object>() {
+    final StringWriter out = new StringWriter();
+    csv.toCsv(out, persons, Person.class);
 
-      @Override
-      protected Integer doInBackground() throws Exception {
-
-        return null;
-      }
-    };
-
+    final List<Person> actual = csv.fromCsv(out.toString(), Person.class);
+    Assert.assertNotNull(actual);
+    Assert.assertEquals(persons, actual);
   }
 
 }
