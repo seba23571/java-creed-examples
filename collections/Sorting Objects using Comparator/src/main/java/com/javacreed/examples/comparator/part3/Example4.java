@@ -41,14 +41,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Example4 {
-    public static void main(final String[] args) {
-        final List<Student> students = new ArrayList<Student>();
-        students.add(new Student("Albert Attard", 65));
-        students.add(new Student("Mary Borg", 93));
-        students.add(new Student("Joe Vella", 47));
-        students.add(new Student("Paul Galea", 52));
+  public static void main(final String[] args) {
+    final List<Student> students = new ArrayList<Student>();
+    students.add(new Student("Albert Attard", 65));
+    students.add(new Student("Mary Borg", 93));
+    students.add(new Student("Joe Vella", 47));
+    students.add(new Student("Paul Galea", 52));
 
-        Collections.sort(students, new StudentGradeComparator());
-        System.out.println(students);
-    }
+    Collections.sort(students, new StudentGradeComparator());
+    System.out.println(students);
+  }
 }

@@ -40,17 +40,17 @@ import java.util.Comparator;
 
 public class StudentGradeComparator implements Comparator<Student> {
 
-    private static final StudentGradeComparator instance = new StudentGradeComparator();
+  private static final StudentGradeComparator instance = new StudentGradeComparator();
 
-    public static StudentGradeComparator getInstance() {
-        return StudentGradeComparator.instance;
-    }
+  public static StudentGradeComparator getInstance() {
+    return StudentGradeComparator.instance;
+  }
 
-    private StudentGradeComparator() {}
+  private StudentGradeComparator() {}
 
-    @Override
-    public int compare(final Student a, final Student b) {
-        return a.getGrade() - b.getGrade();
-    }
+  @Override
+  public int compare(final Student a, final Student b) {
+    return a.getGrade() - b.getGrade();
+  }
 
 }

@@ -39,10 +39,11 @@ package com.javacreed.examples.comparator.part5;
 import java.util.Arrays;
 
 public class Example7 {
-    public static void main(final String[] args) {
-        final Student[] students = { new Student("Albert Attard", 65), new Student("Mary Borg", 93), new Student("Joe Vella", 47), new Student("Paul Galea", 52) };
+  public static void main(final String[] args) {
+    final Student[] students = { new Student("Albert Attard", 65), new Student("Mary Borg", 93),
+        new Student("Joe Vella", 47), new Student("Paul Galea", 52) };
 
-        Arrays.sort(students, StudentGradeComparator.ASC);
-        System.out.println(students);
-    }
+    Arrays.sort(students, StudentGradeComparator.ASC);
+    System.out.println(students);
+  }
 }

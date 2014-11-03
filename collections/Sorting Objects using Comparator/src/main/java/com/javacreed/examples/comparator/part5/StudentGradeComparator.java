@@ -40,19 +40,19 @@ import java.util.Comparator;
 
 public class StudentGradeComparator implements Comparator<Student> {
 
-    public static final StudentGradeComparator ASC = new StudentGradeComparator(1);
+  public static final StudentGradeComparator ASC = new StudentGradeComparator(1);
 
-    public static final StudentGradeComparator DESC = new StudentGradeComparator(-1);
+  public static final StudentGradeComparator DESC = new StudentGradeComparator(-1);
 
-    private final int order;
+  private final int order;
 
-    private StudentGradeComparator(final int order) {
-        this.order = order;
-    }
+  private StudentGradeComparator(final int order) {
+    this.order = order;
+  }
 
-    @Override
-    public int compare(final Student a, final Student b) {
-        return order * Integer.compare(a.getGrade(), b.getGrade());
-    }
+  @Override
+  public int compare(final Student a, final Student b) {
+    return order * Integer.compare(a.getGrade(), b.getGrade());
+  }
 
 }
