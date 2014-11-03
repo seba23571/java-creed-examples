@@ -40,9 +40,9 @@ import java.util.Comparator;
 
 public class StudentGradeComparator implements Comparator<Student> {
 
-    @Override
-    public int compare(final Student a, final Student b) {
-        return Integer.compare(a.getGrade(), b.getGrade());
-    }
+  @Override
+  public int compare(final Student a, final Student b) {
+    return Integer.compare(a.getGrade(), b.getGrade());
+  }
 
 }

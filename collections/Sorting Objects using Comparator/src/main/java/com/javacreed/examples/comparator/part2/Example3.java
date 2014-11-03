@@ -41,22 +41,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class Example3 {
-    public static void main(final String[] args) {
-        final List<Student> students = new ArrayList<Student>();
-        students.add(new Student("Albert Attard", 65, 1));
-        students.add(new Student("Mary Borg", 93, 1));
-        students.add(new Student("Joe Vella", 47, 1));
-        students.add(new Student("Paul Galea", 52, 1));
+  public static void main(final String[] args) {
+    final List<Student> students = new ArrayList<Student>();
+    students.add(new Student("Albert Attard", 65, 1));
+    students.add(new Student("Mary Borg", 93, 1));
+    students.add(new Student("Joe Vella", 47, 1));
+    students.add(new Student("Paul Galea", 52, 1));
 
-        // Sort by name
-        Collections.sort(students);
-        System.out.println(students);
+    // Sort by name
+    Collections.sort(students);
+    System.out.println(students);
 
-        // Change these to sort them by grade
-        for (final Student student : students) {
-            student.setSortBy(0);
-        }
-        Collections.sort(students);
-        System.out.println(students);
+    // Change these to sort them by grade
+    for (final Student student : students) {
+      student.setSortBy(0);
     }
+    Collections.sort(students);
+    System.out.println(students);
+  }
 }

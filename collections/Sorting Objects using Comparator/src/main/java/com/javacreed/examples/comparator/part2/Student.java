@@ -38,48 +38,48 @@ package com.javacreed.examples.comparator.part2;
 
 public class Student implements Comparable<Student> {
 
-    private int grade;
-    private String name;
-    private int sortBy;
+  private int grade;
+  private String name;
+  private int sortBy;
 
-    public Student(final String name, final int grade, final int sortBy) {
-        setName(name);
-        setGrade(grade);
-        setSortBy(sortBy);
-    }
+  public Student(final String name, final int grade, final int sortBy) {
+    setName(name);
+    setGrade(grade);
+    setSortBy(sortBy);
+  }
 
-    @Override
-    public int compareTo(final Student o) {
-        switch (sortBy) {
-        case 1: // Sort by name
-            return name.compareTo(o.name);
-        default: // Sort by grade by default
-            return grade - o.grade;
-        }
+  @Override
+  public int compareTo(final Student o) {
+    switch (sortBy) {
+    case 1: // Sort by name
+      return name.compareTo(o.name);
+    default: // Sort by grade by default
+      return grade - o.grade;
     }
+  }
 
-    public int getGrade() {
-        return grade;
-    }
+  public int getGrade() {
+    return grade;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public int getSortBy() {
-        return sortBy;
-    }
+  public int getSortBy() {
+    return sortBy;
+  }
 
-    public void setGrade(final int grade) {
-        this.grade = grade;
-    }
+  public void setGrade(final int grade) {
+    this.grade = grade;
+  }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+  public void setName(final String name) {
+    this.name = name;
+  }
 
-    public void setSortBy(final int sortBy) {
-        this.sortBy = sortBy;
-    }
+  public void setSortBy(final int sortBy) {
+    this.sortBy = sortBy;
+  }
 
 }

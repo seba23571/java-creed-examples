@@ -38,38 +38,38 @@ package com.javacreed.examples.comparator.part5;
 
 public class Student implements Comparable<Student> {
 
-    private int grade;
-    private String name;
+  private int grade;
+  private String name;
 
-    public Student(final String name, final int grade) {
-        setName(name);
-        setGrade(grade);
-    }
+  public Student(final String name, final int grade) {
+    setName(name);
+    setGrade(grade);
+  }
 
-    @Override
-    public int compareTo(final Student o) {
-        return Integer.compare(grade, o.grade);
-    }
+  @Override
+  public int compareTo(final Student o) {
+    return Integer.compare(grade, o.grade);
+  }
 
-    public int getGrade() {
-        return grade;
-    }
+  public int getGrade() {
+    return grade;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setGrade(final int grade) {
-        this.grade = grade;
-    }
+  public void setGrade(final int grade) {
+    this.grade = grade;
+  }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+  public void setName(final String name) {
+    this.name = name;
+  }
 
-    @Override
-    public String toString() {
-        return name + " " + grade;
-    }
+  @Override
+  public String toString() {
+    return name + " " + grade;
+  }
 
 }
