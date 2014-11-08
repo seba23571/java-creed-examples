@@ -1,0 +1,36 @@
+package com.javacreed.examples.vlc.part1;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+import com.sun.jna.NativeLibrary;
+
+public class Main {
+  public static void main(final String[] args) throws Exception {
+
+    // http://download.videolan.org/pub/videolan/vlc/last/
+    final String vlcLibPath = "C:\\Users\\Albert\\Downloads\\vlc-2.1.5-win64\\vlc-2.1.5";
+    final String mediaPath = "C:\\Users\\Albert\\Downloads\\Films\\Children\\Pixar 1\\Lifted.mkv";
+
+    NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), vlcLibPath);
+
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        final JFrame frame = new JFrame("Test VLC");
+        final EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+        frame.setContentPane(embeddedMediaPlayerComponent);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200, 800);
+        frame.setVisible(true);
+
+        final EmbeddedMediaPlayer mediaPlayer = embeddedMediaPlayerComponent.getMediaPlayer();
+        mediaPlayer.playMedia(mediaPath);
+      }
+    });
+  }
+}
