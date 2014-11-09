@@ -4,10 +4,10 @@ import javax.swing.Action;
 
 public interface Presenter {
 
-  void onClose();
-
   Action getOpenAction();
 
   Action getStopAction();
+
+  void onClose();
 
 }
