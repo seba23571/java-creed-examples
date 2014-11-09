@@ -21,7 +21,7 @@ public class Main {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        final JFrame frame = new JFrame("Test VLC");
+        final JFrame frame = new JFrame("Playing Video with VLC (Part 1)");
         final EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         frame.setContentPane(embeddedMediaPlayerComponent);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

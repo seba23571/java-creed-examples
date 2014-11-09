@@ -8,8 +8,9 @@ public interface View {
 
   void destroy();
 
-  void init();
+  EmbeddedMediaPlayer getMediaPlayer();
 
+  void init();
 
   void setPresenter(Presenter presenter);
 
@@ -22,7 +23,5 @@ public interface View {
   void showView(boolean show);
 
   void showWarning(String title, String message);
-
-  EmbeddedMediaPlayer getMediaPlayer();
 
 }

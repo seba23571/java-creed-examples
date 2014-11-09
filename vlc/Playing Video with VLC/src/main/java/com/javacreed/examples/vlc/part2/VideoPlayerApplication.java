@@ -45,6 +45,7 @@ public class VideoPlayerApplication extends JFrame implements View {
   public void init() {
     final Presenter presenter = getPresenter();
 
+    setTitle("Playing Video with VLC (Part 2)");
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setSize(800, 600);
     addWindowListener(new WindowAdapter() {
