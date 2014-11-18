@@ -23,14 +23,14 @@ package com.javacreed.examples.cuncurrency.part2;
 
 public class Data {
 
-    private int value;
+  private int value;
 
-    public synchronized int getValue() {
-        return value;
-    }
+  public synchronized int getValue() {
+    return value;
+  }
 
-    public synchronized void setValue(final int value) {
-        this.value = value;
-    }
+  public synchronized void setValue(final int value) {
+    this.value = value;
+  }
 
 }

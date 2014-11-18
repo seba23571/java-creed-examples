@@ -23,18 +23,18 @@ package com.javacreed.examples.cuncurrency.part3;
 
 public class Data {
 
-    private int value;
+  private int value;
 
-    public synchronized void adjustBy(final int adjustment) {
-        value += adjustment;
-    }
+  public synchronized void adjustBy(final int adjustment) {
+    value += adjustment;
+  }
 
-    public synchronized int getValue() {
-        return value;
-    }
+  public synchronized int getValue() {
+    return value;
+  }
 
-    public synchronized void setValue(final int value) {
-        this.value = value;
-    }
+  public synchronized void setValue(final int value) {
+    this.value = value;
+  }
 
 }
