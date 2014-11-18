@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.cuncurrency.part3;
+package com.javacreed.examples.concurrency.part3;
 
 import java.util.ArrayList;
 import java.util.List;

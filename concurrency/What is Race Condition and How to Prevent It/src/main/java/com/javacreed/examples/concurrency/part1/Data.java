@@ -19,15 +19,11 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.cuncurrency.part3;
+package com.javacreed.examples.concurrency.part1;
 
 public class Data {
 
   private int value;
-
-  public synchronized void adjustBy(final int adjustment) {
-    value += adjustment;
-  }
 
   public synchronized int getValue() {
     return value;

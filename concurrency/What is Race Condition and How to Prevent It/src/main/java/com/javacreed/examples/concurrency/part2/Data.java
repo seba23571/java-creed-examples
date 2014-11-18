@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.cuncurrency.part2;
+package com.javacreed.examples.concurrency.part2;
 
 public class Data {
 
