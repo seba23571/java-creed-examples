@@ -19,18 +19,15 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.cuncurrency.part1;
+package com.javacreed.examples.concurrency.part1;
 
-public class Data {
+public class Example1 {
 
-  private int value;
+  public static void main(final String[] args) {
+    final Data data = new Data();
 
-  public synchronized int getValue() {
-    return value;
+    final int value = data.getValue();
+    data.setValue(value + 1);
+    System.out.println(data.getValue());
   }
-
-  public synchronized void setValue(final int value) {
-    this.value = value;
-  }
-
 }
