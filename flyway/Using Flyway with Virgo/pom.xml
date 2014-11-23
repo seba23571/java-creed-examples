@@ -31,14 +31,31 @@
 
 		<!-- Virgo JMX port. This may differ between when started from STS or from the Command Line -->
 		<!-- STS -->
-		<!-- <virgo.jmx.port>9753</virgo.jmx.port> -->
+		<virgo.jmx.port>9753</virgo.jmx.port>
 		<!-- Command Line -->
-		<virgo.jmx.port>9875</virgo.jmx.port>
+		<!-- <virgo.jmx.port>9875</virgo.jmx.port> -->
 
 		<!-- The home directory where Virgo is installed -->
-		<virgo.homeDir>C:/virgo</virgo.homeDir>
+		<virgo.homeDir>C:\\Users\\Albert\\Downloads\\virgo-tomcat-server-3.6.3.RELEASE.zip\\virgo-tomcat-server-3.6.3.RELEASE</virgo.homeDir>
 
 	</properties>
+	
+	<developers>
+		<developer>
+			<id>albert</id>
+			<name>Albert Attard</name>
+			<email>albert@javacreed.com</email>
+			<url>${project.organization.url}</url>
+			<organization>${project.organization.name}</organization>
+			<organizationUrl>${project.organization.url}</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+				<role>writer</role>
+			</roles>
+			<timezone>CET</timezone>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -50,6 +67,7 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
@@ -79,6 +97,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<!-- Configure the maven bundle plugin. This is responsible from generating the MANIFEST.MF file amongst other things -->
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -141,6 +160,9 @@
 										<versionRange>[1.7,)</versionRange>
 										<goals>
 											<goal>add-third-party</goal>
+											<goal>
+												update-file-header
+											</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -168,7 +190,7 @@
 		<dependency>
 			<groupId>com.googlecode.flyway</groupId>
 			<artifactId>flyway-core</artifactId>
-			<version>2.3</version>
+			<version>2.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mchange</groupId>
