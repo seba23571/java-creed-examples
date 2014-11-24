@@ -19,17 +19,13 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part1;
+package com.javacreed.examples.concurrency.utils;
 
-import com.javacreed.examples.concurrency.utils.FilePath;
+import java.io.File;
 
-public class Example1 {
+public class FilePath {
 
-  public static void main(final String[] args) {
-    final long start = System.nanoTime();
-    final long size = DirSize.sizeOf(FilePath.TEST_DIR);
-    final long taken = System.nanoTime() - start;
+  public static final File TEST_DIR = new File("../../").getAbsoluteFile();
 
-    System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
-  }
+  private FilePath() {}
 }

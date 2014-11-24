@@ -21,15 +21,24 @@
  */
 package com.javacreed.examples.concurrency.part1;
 
-import com.javacreed.examples.concurrency.utils.FilePath;
+import java.io.File;
 
-public class Example1 {
+public class DirSize {
 
-  public static void main(final String[] args) {
-    final long start = System.nanoTime();
-    final long size = DirSize.sizeOf(FilePath.TEST_DIR);
-    final long taken = System.nanoTime() - start;
+  public static long sizeOf(final File file) {
+    long size = 0;
 
-    System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
+    if (file.isFile()) {
+      size = file.length();
+    } else {
+      for (final File child : file.listFiles()) {
+        size += DirSize.sizeOf(child);
+      }
+    }
+
+    return size;
   }
+
+  private DirSize() {}
+
 }
