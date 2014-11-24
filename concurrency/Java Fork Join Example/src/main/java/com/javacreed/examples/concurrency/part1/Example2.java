@@ -21,15 +21,23 @@
  */
 package com.javacreed.examples.concurrency.part1;
 
-import com.javacreed.examples.concurrency.utils.FilePath;
+import java.util.concurrent.TimeUnit;
 
-public class Example1 {
+import com.javacreed.examples.concurrency.utils.FilePath;
+import com.javacreed.examples.concurrency.utils.Results;
+
+public class Example2 {
 
   public static void main(final String[] args) {
-    final long start = System.nanoTime();
-    final long size = DirSize.sizeOf(FilePath.TEST_DIR);
-    final long taken = System.nanoTime() - start;
+    final Results results = new Results();
+    for (int i = 0; i < 3; i++) {
+      results.startTime();
+      final long size = DirSize.sizeOf(FilePath.TEST_DIR);
+      final long taken = results.endTime();
+      System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
+    }
 
-    System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
+    final long takenInNano = results.getAverageTime();
+    System.out.printf("Average: %d nano (%d seconds)%n", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
   }
 }

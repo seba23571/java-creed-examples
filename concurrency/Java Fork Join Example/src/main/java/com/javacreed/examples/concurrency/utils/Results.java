@@ -19,17 +19,32 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part1;
+package com.javacreed.examples.concurrency.utils;
 
-import com.javacreed.examples.concurrency.utils.FilePath;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Example1 {
+public class Results {
 
-  public static void main(final String[] args) {
-    final long start = System.nanoTime();
-    final long size = DirSize.sizeOf(FilePath.TEST_DIR);
-    final long taken = System.nanoTime() - start;
+  private final List<Long> timeTaken = new ArrayList<>();
+  private long startTime;
 
-    System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
+  public long endTime() {
+    final long taken = System.nanoTime() - startTime;
+    timeTaken.add(taken);
+    return taken;
+  }
+
+  public long getAverageTime() {
+    long total = 0;
+    for (final long time : timeTaken) {
+      total += time;
+    }
+
+    return total / timeTaken.size();
+  }
+
+  public void startTime() {
+    startTime = System.nanoTime();
   }
 }
