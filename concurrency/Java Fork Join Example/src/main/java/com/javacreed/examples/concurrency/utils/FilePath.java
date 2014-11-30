@@ -25,7 +25,7 @@ import java.io.File;
 
 public class FilePath {
 
-  public static final File TEST_DIR = new File("../../").getAbsoluteFile();
+  public static final File TEST_DIR = new File(System.getProperty("user.home")).getAbsoluteFile();
 
   private FilePath() {}
 }

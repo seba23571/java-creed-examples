@@ -30,6 +30,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 /**
  * This example is broken and suffers from deadlock and is only included for documentation purpose.
  * 
@@ -37,6 +41,8 @@ import java.util.concurrent.Future;
  * 
  */
 public class DirSize {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
 
   private static class SizeOfFileCallable implements Callable<Long> {
 
@@ -50,6 +56,7 @@ public class DirSize {
 
     @Override
     public Long call() throws Exception {
+      DirSize.LOGGER.debug("Computing size of: {}", file);
       long size = 0;
 
       if (file.isFile()) {
