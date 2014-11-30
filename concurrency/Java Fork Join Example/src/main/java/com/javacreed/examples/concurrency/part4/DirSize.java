@@ -28,7 +28,12 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DirSize {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
 
   private static class SizeOfFileAction extends RecursiveAction {
 
@@ -44,11 +49,16 @@ public class DirSize {
 
     @Override
     protected void compute() {
+      DirSize.LOGGER.debug("Computing size of: {}", file);
+
       if (file.isFile()) {
         sizeAccumulator.addAndGet(file.length());
       } else {
-        for (final File child : file.listFiles()) {
-          ForkJoinTask.invokeAll(new SizeOfFileAction(child, sizeAccumulator));
+        final File[] children = file.listFiles();
+        if (children != null) {
+          for (final File child : children) {
+            ForkJoinTask.invokeAll(new SizeOfFileAction(child, sizeAccumulator));
+          }
         }
       }
     }
