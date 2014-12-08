@@ -23,6 +23,9 @@ package com.javacreed.examples.concurrency.part3;
 
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.javacreed.examples.concurrency.utils.FilePath;
 import com.javacreed.examples.concurrency.utils.Results;
 
@@ -34,10 +37,12 @@ public class Example4 {
       results.startTime();
       final long size = DirSize.sizeOf(FilePath.TEST_DIR);
       final long taken = results.endTime();
-      System.out.printf("Size of '%s': %d bytes (in %d nano)%n", FilePath.TEST_DIR, size, taken);
+      Example4.LOGGER.info("Size of '{}': {} bytes (in {} nano)", FilePath.TEST_DIR, size, taken);
     }
 
     final long takenInNano = results.getAverageTime();
-    System.out.printf("Average: %d nano (%d seconds)%n", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
+    Example4.LOGGER.info("Average: {} nano ({} seconds)", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example4.class);
 }

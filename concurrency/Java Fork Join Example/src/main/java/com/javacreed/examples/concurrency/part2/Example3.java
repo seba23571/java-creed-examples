@@ -31,18 +31,18 @@ import com.javacreed.examples.concurrency.utils.Results;
 
 public class Example3 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
-  
   public static void main(final String[] args) {
     final Results results = new Results();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
       results.startTime();
       final long size = DirSize.sizeOf(FilePath.TEST_DIR);
       final long taken = results.endTime();
-      Example3.LOGGER.debug("Size of '{}': {} bytes (in {} nano)", FilePath.TEST_DIR, size, taken);
+      Example3.LOGGER.info("Size of '{}': {} bytes (in {} nano)", FilePath.TEST_DIR, size, taken);
     }
 
     final long takenInNano = results.getAverageTime();
-    Example3.LOGGER.debug("Average: {} nano ({} seconds)", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
+    Example3.LOGGER.info("Average: {} nano ({} seconds)", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
 }

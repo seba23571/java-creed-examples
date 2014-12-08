@@ -9,9 +9,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,18 +31,18 @@ import com.javacreed.examples.concurrency.utils.Results;
 
 public class Example2 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
-
   public static void main(final String[] args) {
     final Results results = new Results();
     for (int i = 0; i < 5; i++) {
       results.startTime();
       final long size = DirSize.sizeOf(FilePath.TEST_DIR);
       final long taken = results.endTime();
-      Example2.LOGGER.debug("Size of '{}': {} bytes (in {} nano)", FilePath.TEST_DIR, size, taken);
+      Example2.LOGGER.info("Size of '{}': {} bytes (in {} nano)", FilePath.TEST_DIR, size, taken);
     }
 
     final long takenInNano = results.getAverageTime();
-    Example2.LOGGER.debug("Average: {} nano ({} seconds)", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
+    Example2.LOGGER.info("Average: {} nano ({} seconds)", takenInNano, TimeUnit.NANOSECONDS.toSeconds(takenInNano));
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
 }
