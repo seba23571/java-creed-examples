@@ -33,8 +33,6 @@ import org.slf4j.LoggerFactory;
 
 public class DirSize {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
-
   private static class SizeOfFileAction extends RecursiveAction {
 
     private static final long serialVersionUID = -196522408291343951L;
@@ -62,7 +60,7 @@ public class DirSize {
         }
       }
     }
-  };
+  }
 
   public static long sizeOf(final File file) {
     final ForkJoinPool pool = new ForkJoinPool();
@@ -74,6 +72,8 @@ public class DirSize {
       pool.shutdown();
     }
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
 
   private DirSize() {}
 

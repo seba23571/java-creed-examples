@@ -33,16 +33,13 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * This example is broken and suffers from deadlock and is only included for documentation purpose.
- * 
+ *
  * @author Albert Attard
- * 
+ *
  */
 public class DirSize {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
 
   private static class SizeOfFileCallable implements Callable<Long> {
 
@@ -77,7 +74,9 @@ public class DirSize {
   }
 
   public static <T> long sizeOf(final File file) {
-    final ExecutorService executor = Executors.newFixedThreadPool(2);
+    final int threads = Runtime.getRuntime().availableProcessors();
+    DirSize.LOGGER.debug("Creating executor with {} threads", threads);
+    final ExecutorService executor = Executors.newFixedThreadPool(threads);
     try {
       return executor.submit(new SizeOfFileCallable(file, executor)).get();
     } catch (final Exception e) {
@@ -86,6 +85,8 @@ public class DirSize {
       executor.shutdown();
     }
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DirSize.class);
 
   private DirSize() {}
 
