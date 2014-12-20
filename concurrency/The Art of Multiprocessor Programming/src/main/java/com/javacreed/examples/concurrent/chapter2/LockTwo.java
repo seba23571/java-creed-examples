@@ -33,7 +33,7 @@ public class LockTwo implements Lock {
 
   @Override
   public void lock() {
-    int i = ThreadID.get();
+    final int i = ThreadID.get();
     victim = i;
     while (victim == i) {} // Wait
   }

@@ -27,12 +27,12 @@ import com.javacreed.examples.concurrent.extra.Figure;
 @Figure("2.9")
 public class Bakery implements Lock {
 
-  /* In the book this property is not declared. It was added for consistency */
+  /* The example shown in the book does not have this property. It was added for consistency */
   private final int n;
 
   private volatile boolean[] flag;
 
-  /* Used an 'int' instead of 'Label' */
+  /* Used an 'int' instead of 'Label' as the purpose of this label is to provide an ordering mechanism */
   private volatile int[] label;
 
   public Bakery(final int n) {
