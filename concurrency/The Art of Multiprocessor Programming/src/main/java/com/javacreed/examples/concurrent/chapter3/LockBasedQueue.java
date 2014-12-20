@@ -25,8 +25,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.javacreed.examples.concurrent.extra.EmptyException;
+import com.javacreed.examples.concurrent.extra.Figure;
 import com.javacreed.examples.concurrent.extra.FullException;
 
+@Figure("3.1")
 public class LockBasedQueue<T> {
 
   private int head;

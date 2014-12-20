@@ -22,15 +22,13 @@
 package com.javacreed.examples.concurrent.chapter3;
 
 import com.javacreed.examples.concurrent.extra.EmptyException;
+import com.javacreed.examples.concurrent.extra.Figure;
 import com.javacreed.examples.concurrent.extra.FullException;
 
 /**
  * This is a correct implementation of a single-enqueuer/single-dequeuer FIFO queue.
- *
- * @author Albert Attard
- *
- * @param <T>
  */
+@Figure("3.3")
 public class WaitFreeQueue<T> {
 
   private volatile int head = 0;
