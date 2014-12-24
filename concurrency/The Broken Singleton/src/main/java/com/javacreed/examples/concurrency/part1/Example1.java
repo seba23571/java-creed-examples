@@ -31,5 +31,4 @@ public class Example1 {
     final SequenceGenerator b = new SequenceGenerator(1L);
     System.out.printf("SG B: %d%n", b.getNextValue());
   }
-
 }
