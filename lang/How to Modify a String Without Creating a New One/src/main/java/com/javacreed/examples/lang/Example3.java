@@ -9,7 +9,24 @@ public class Example3 {
     // java -Djava.security.manager
     System.setSecurityManager(new SecurityManager() {
       @Override
-      public void checkPermission(final Permission perm) {}
+      public void checkPermission(final Permission perm) {
+        switch (perm.getName()) {
+        // Allows getDeclaredField()
+        case "accessDeclaredMembers":
+          // Allows setAccessible()
+        case "suppressAccessChecks":
+          // Allows formatting and printing
+        case "user.language.format":
+        case "user.script.format":
+        case "user.country.format":
+        case "user.variant.format":
+        case "java.locale.providers":
+          // Ignore/Allow
+          break;
+        default:
+          super.checkPermission(perm);
+        }
+      }
     });
 
     final Class<String> type = String.class;
