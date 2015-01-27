@@ -38,9 +38,10 @@ public class Example {
                 return FileVisitResult.TERMINATE;
             }
         };
-        fileVisitor.setContinueFrom("1", "2", "3");
+        fileVisitor.setContinueFrom("1", "2");
 
-        final Path root = Paths.get("C:\\Java Creed");
+        final Path root = Paths.get("C:\\Example");
+        fileVisitor.setRootPath(root);
         Files.walkFileTree(root, fileVisitor);
     }
 }
