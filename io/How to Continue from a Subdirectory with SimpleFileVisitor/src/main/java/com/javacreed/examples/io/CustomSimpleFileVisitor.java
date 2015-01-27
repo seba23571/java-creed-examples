@@ -47,12 +47,14 @@ public class CustomSimpleFileVisitor extends SimpleFileVisitor<Path> {
         if (preVisitContinueFromResult != FileVisitResult.CONTINUE) {
             if (continueFrom == null) {
                 preVisitContinueFromResult = FileVisitResult.CONTINUE;
+            } else if (rootPath.equals(dir)) {
+                return FileVisitResult.CONTINUE;
             } else {
                 final Path relative = rootPath.relativize(dir);
                 final int index = relative.getNameCount() - 1;
                 if (index < continueFrom.size()) {
-                    final String name = continueFrom.get(index);
                     final String dirName = dir.getFileName().toString();
+                    final String name = continueFrom.get(index);
 
                     if (name.equals(dirName)) {
                         if (index == continueFrom.size() - 1) {
