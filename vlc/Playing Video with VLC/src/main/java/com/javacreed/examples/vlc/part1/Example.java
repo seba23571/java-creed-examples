@@ -30,10 +30,11 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import com.sun.jna.NativeLibrary;
 
-public class Main {
+public class Example {
   public static void main(final String[] args) throws Exception {
 
-    // http://download.videolan.org/pub/videolan/vlc/last/
+    // Download the native libraries from http://download.videolan.org/pub/videolan/vlc/last/
+    // Change the following paths 
     final String vlcLibPath = "C:\\Users\\Albert\\Downloads\\vlc-2.1.5-win64\\vlc-2.1.5";
     final String mediaPath = "C:\\Users\\Albert\\Downloads\\Films\\Children\\Pixar 1\\Lifted.mkv";
 
