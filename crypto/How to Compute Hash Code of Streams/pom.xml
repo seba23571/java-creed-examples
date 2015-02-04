@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.javacreed.examples</groupId>
-	<artifactId>how-to-compute-hash-code-of-large-files</artifactId>
+	<artifactId>how-to-compute-hash-code-of-streams</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	
-	<name>How to Compute Hash Code of Large Files</name>
+	<name>How to Compute Hash Code of Streams</name>
 	<url>http://www.javacreed.com/${project.artifactId}/</url>
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
 	<organization>
