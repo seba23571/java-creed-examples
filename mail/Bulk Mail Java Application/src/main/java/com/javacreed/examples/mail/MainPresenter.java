@@ -47,6 +47,7 @@ public class MainPresenter implements Presenter {
 
   private final Model model = new Model();
 
+  @SuppressWarnings("unused")
   private ExecutionContext executionContext;
 
   private View view;
@@ -73,41 +74,20 @@ public class MainPresenter implements Presenter {
     return model.getVariablesTableModel();
   }
 
-  private void onSave(){
-      final View view = PresenterUtils.requireNonNull(this.view, "view");
-String message = view.getMessage();
-
-File file = model.getCurrentMessageFile();
-      if(file==null){
-          // No file is open.
-          file = view.showSaveDialog(model.getCurrentDirectory(), null);
-          if(file==null){
-              return;
-          }
-      }
-
-      try {
-          FileUtils.write(file, message, "UTF-8");
-          view.setStatus("File Saved");
-      } catch (IOException e) {
-          LOGGER.error("Failed to save the message to file: {}", file, e);
-          view.showError("Save", "Failed to save the message to file");
-      }
-  }
-
   private void initActions() {
     sendAction = PresenterUtils.createAction("Send", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {}
     });
 
-      saveAction = PresenterUtils.createAction("Save", new ActionListener() {
-          @Override
-          public void actionPerformed(final ActionEvent e) {onSave();}
-      });
+    saveAction = PresenterUtils.createAction("Save", new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        onSave();
+      }
+    });
 
-
-      openAction = PresenterUtils.createAction("Open", new ActionListener() {
+    openAction = PresenterUtils.createAction("Open", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onOpen();
@@ -153,6 +133,27 @@ File file = model.getCurrentMessageFile();
     view.destroy();
   }
 
+  @Override
+  public void onDataValueChanged(final int index) {
+    final View view = PresenterUtils.requireNonNull(this.view, "view");
+
+    String message = model.getMessage();
+    for (final VariableColumnBinding binding : model.getVariablesColumnBindings()) {
+      if (message.contains("${" + binding.getVariableName() + "}")) {
+        final String dataColumn = binding.getDataColumn();
+        final String value;
+        if (dataColumn == null) {
+          value = binding.getVariableName();
+        } else {
+          value = model.getDataTableModel().getCellValueAt(index, dataColumn);
+        }
+        message = message.replaceAll("\\$\\{" + binding.getVariableName() + "\\}", value);
+      }
+    }
+
+    view.setPreviewMessage(message);
+  }
+
   private void onNext() {
     switch (model.getShowingPane()) {
     case MESSAGE_PANE:
@@ -189,7 +190,7 @@ File file = model.getCurrentMessageFile();
   private void onNextFromMessagePane() {
     final View view = PresenterUtils.requireNonNull(this.view, "view");
 
-    final String message = view.getMessage();
+    final String message = view.getEditorMessage();
     if (message.length() == 0) {
       view.showWarn("Next", "You cannot send a blank email");
       return;
@@ -221,7 +222,9 @@ File file = model.getCurrentMessageFile();
         model.setMessage(text);
         model.setCurrentMessageFile(selectedFile);
         model.setCurrentDirectory(selectedFile.getParentFile());
-        view.setMessage(model.getMessage());
+        view.setEditorMessage(model.getMessage());
+        view.setStatus("Working on file: " + selectedFile.getName() + " (found in folder: "
+            + selectedFile.getParentFile().getAbsolutePath() + ")");
         break;
       case DATA_PANE:
         model.setData(text);
@@ -234,6 +237,28 @@ File file = model.getCurrentMessageFile();
     }
   }
 
+  private void onSave() {
+    final View view = PresenterUtils.requireNonNull(this.view, "view");
+    final String message = view.getEditorMessage();
+
+    File file = model.getCurrentMessageFile();
+    if (file == null) {
+      // No file is open.
+      file = view.showSaveDialog(model.getCurrentDirectory(), null);
+      if (file == null) {
+        return;
+      }
+    }
+
+    try {
+      FileUtils.write(file, message, "UTF-8");
+      view.setStatus("File Saved");
+    } catch (final IOException e) {
+      MainPresenter.LOGGER.error("Failed to save the message to file: {}", file, e);
+      view.showError("Save", "Failed to save the message to file");
+    }
+  }
+
   private void onShowDataPane() {
     final View view = PresenterUtils.requireNonNull(this.view, "view");
     view.showPane(model.setShowingPane(ViewPane.DATA_PANE), openAction, backAction, nextAction);
@@ -241,7 +266,7 @@ File file = model.getCurrentMessageFile();
 
   private void onShowMessagePane() {
     final View view = PresenterUtils.requireNonNull(this.view, "view");
-    view.setMessage(model.getMessage());
+    view.setEditorMessage(model.getMessage());
     view.showPane(model.setShowingPane(ViewPane.MESSAGE_PANE), openAction, saveAction, nextAction);
   }
 

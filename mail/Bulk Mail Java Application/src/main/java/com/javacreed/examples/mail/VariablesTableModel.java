@@ -95,6 +95,6 @@ public class VariablesTableModel extends AbstractTableModel {
     for (final String variable : variables) {
       values.add(new VariableColumnBinding(variable));
     }
-      fireTableDataChanged();
+    fireTableDataChanged();
   }
 }

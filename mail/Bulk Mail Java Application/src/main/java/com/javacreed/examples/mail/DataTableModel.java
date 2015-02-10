@@ -31,13 +31,33 @@ import javax.swing.table.AbstractTableModel;
 public class DataTableModel extends AbstractTableModel {
 
   private static final long serialVersionUID = 3436341791086935780L;
-  
+
   private String[] headers = new String[0];
   private String[][] values = new String[0][0];
+
+  public String getCellValueAt(final int rowIndex, final String columnName) {
+    final int columnIndex = getColumnIndex(columnName);
+    if (columnIndex == -1) {
+      throw new IllegalArgumentException("Column with name '" + columnName + "' was not found");
+    }
+
+    return getValueAt(rowIndex, columnIndex);
+  }
 
   @Override
   public int getColumnCount() {
     return headers.length;
+  }
+
+  public int getColumnIndex(final String columnName) {
+    for (int columnIndex = 0; columnIndex < headers.length; columnIndex++) {
+
+      if (headers[columnIndex].equals(columnName)) {
+        return columnIndex;
+      }
+    }
+
+    return -1;
   }
 
   @Override
@@ -51,7 +71,7 @@ public class DataTableModel extends AbstractTableModel {
   }
 
   @Override
-  public Object getValueAt(final int rowIndex, final int columnIndex) {
+  public String getValueAt(final int rowIndex, final int columnIndex) {
     return values[rowIndex][columnIndex];
   }
 
