@@ -23,13 +23,9 @@ package com.javacreed.examples.mail;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /**
  * Created by Albert on 06/02/2015.

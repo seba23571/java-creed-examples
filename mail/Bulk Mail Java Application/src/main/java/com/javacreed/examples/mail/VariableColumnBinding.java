@@ -43,4 +43,9 @@ public class VariableColumnBinding {
   public void setDataColumn(final String dataColumn) {
     this.dataColumn = dataColumn;
   }
+
+  @Override
+  public String toString() {
+    return String.format("%s = %s", variableName, dataColumn);
+  }
 }

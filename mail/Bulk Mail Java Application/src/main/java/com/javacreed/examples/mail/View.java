@@ -32,25 +32,27 @@ public interface View {
 
   void destroy();
 
-  String getMessage();
+  String getEditorMessage();
 
   void init();
 
-  void setMessage(String message);
+  void setEditorMessage(String message);
 
   void setPresenter(Presenter presenter);
+
+  void setPreviewMessage(String message);
+
+  void setStatus(String status);
 
   void showError(String title, String message);
 
   File showOpenDialog(File currentDirectory, File currentFile);
 
-    File showSaveDialog(File currentDirectory, File currentFile);
+  void showPane(ViewPane messagePane, Action... actions);
 
-    void showPane(ViewPane messagePane, Action... actions);
+  File showSaveDialog(File currentDirectory, File currentFile);
 
   void showView(boolean show);
 
   void showWarn(String title, String message);
-
-    void setStatus(String status);
 }

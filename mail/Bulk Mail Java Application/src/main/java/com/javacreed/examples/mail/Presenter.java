@@ -35,4 +35,7 @@ public interface Presenter {
   TableModel getVariablesTableModel();
 
   void onClosing();
+
+  void onDataValueChanged(int index);
+
 }

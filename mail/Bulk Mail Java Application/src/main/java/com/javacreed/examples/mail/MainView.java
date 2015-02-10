@@ -35,6 +35,7 @@ import java.util.Objects;
 
 import javax.swing.Action;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -48,6 +49,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 
 /**
@@ -56,9 +59,10 @@ import javax.swing.table.TableColumn;
 public class MainView extends JFrame implements View {
 
   private static final long serialVersionUID = 4301781707259296429L;
-  
+
   private Presenter presenter;
-  private JTextArea messageArea;
+  private JTextArea messageEditorArea;
+  private JTextArea messagePreviewArea;
   private JLabel statusLabel;
   private JPanel mainPanel;
   private JPanel actionsPanel;
@@ -75,19 +79,38 @@ public class MainView extends JFrame implements View {
 
     // Data Table
     final JTable dataTable = new JTable(presenter.getDataTableModel());
+    dataTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+      @Override
+      public void valueChanged(final ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+          final DefaultListSelectionModel model = (DefaultListSelectionModel) e.getSource();
+          presenter.onDataValueChanged(model.getMinSelectionIndex());
+        }
+      }
+    });
 
-    final JSplitPane splitPane = new JSplitPane();
-    splitPane.setLeftComponent(new JScrollPane(variablesTable));
-    splitPane.setRightComponent(new JScrollPane(dataTable));
-    return splitPane;
+    // Preview
+    messagePreviewArea = new JTextArea();
+    messagePreviewArea.setMargin(new Insets(2, 2, 2, 2));
+    messagePreviewArea.setEditable(false);
+    messagePreviewArea.setOpaque(false);
+
+    final JSplitPane centerSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    centerSplitPane.setTopComponent(new JScrollPane(dataTable));
+    centerSplitPane.setBottomComponent(new JScrollPane(messagePreviewArea));
+
+    final JSplitPane mainSplitPane = new JSplitPane();
+    mainSplitPane.setLeftComponent(new JScrollPane(variablesTable));
+    mainSplitPane.setRightComponent(centerSplitPane);
+    return mainSplitPane;
   }
 
   private JComponent createMessageComponent() {
     final JPanel panel = new JPanel(new BorderLayout());
 
-    messageArea = new JTextArea();
-    messageArea.setMargin(new Insets(2, 2, 2, 2));
-    panel.add(BorderLayout.CENTER, new JScrollPane(messageArea));
+    messageEditorArea = new JTextArea();
+    messageEditorArea.setMargin(new Insets(2, 2, 2, 2));
+    panel.add(BorderLayout.CENTER, new JScrollPane(messageEditorArea));
 
     return panel;
   }
@@ -104,8 +127,8 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
-  public String getMessage() {
-    return messageArea.getText();
+  public String getEditorMessage() {
+    return messageEditorArea.getText();
   }
 
   @Override
@@ -164,13 +187,23 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
-  public void setMessage(final String message) {
-    messageArea.setText(message);
+  public void setEditorMessage(final String message) {
+    messageEditorArea.setText(message);
   }
 
   @Override
   public void setPresenter(final Presenter presenter) {
     this.presenter = Objects.requireNonNull(presenter);
+  }
+
+  @Override
+  public void setPreviewMessage(final String message) {
+    messagePreviewArea.setText(message);
+  }
+
+  @Override
+  public void setStatus(final String status) {
+    statusLabel.setText(status);
   }
 
   @Override
@@ -188,16 +221,6 @@ public class MainView extends JFrame implements View {
     return null;
   }
 
-    @Override
-    public File showSaveDialog(final File currentDirectory, final File currentFile) {
-        final JFileChooser fileChooser = new JFileChooser(currentDirectory);
-        fileChooser.setSelectedFile(currentFile);
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
-        }
-        return null;
-    }
-
   @Override
   public void showPane(final ViewPane messagePane, final Action... actions) {
     final CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
@@ -211,6 +234,16 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
+  public File showSaveDialog(final File currentDirectory, final File currentFile) {
+    final JFileChooser fileChooser = new JFileChooser(currentDirectory);
+    fileChooser.setSelectedFile(currentFile);
+    if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+      return fileChooser.getSelectedFile();
+    }
+    return null;
+  }
+
+  @Override
   public void showView(final boolean show) {
     setVisible(show);
   }
@@ -219,10 +252,5 @@ public class MainView extends JFrame implements View {
   public void showWarn(final String title, final String message) {
     JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
   }
-
-    @Override
-    public void setStatus(String status) {
-        statusLabel.setText(status);
-    }
 
 }

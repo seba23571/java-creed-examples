@@ -39,6 +39,10 @@ public class Model {
   private DataParser dataParser;
   private HeadersComboBoxModel headersComboBoxModel;
 
+  public File getCurrentDataFile() {
+    return currentDataFile;
+  }
+
   public File getCurrentDirectory() {
     return currentDirectory;
   }
@@ -69,6 +73,10 @@ public class Model {
 
   public VariablesTableModel getVariablesTableModel() {
     return variablesTableModel;
+  }
+
+  public void setCurrentDataFile(final File currentDataFile) {
+    this.currentDataFile = currentDataFile;
   }
 
   public void setCurrentDirectory(final File currentDirectory) {
@@ -105,12 +113,4 @@ public class Model {
   public void setVariablesTableModel(final VariablesTableModel variablesTableModel) {
     this.variablesTableModel = variablesTableModel;
   }
-
-    public File getCurrentDataFile() {
-        return currentDataFile;
-    }
-
-    public void setCurrentDataFile(File currentDataFile) {
-        this.currentDataFile = currentDataFile;
-    }
 }
