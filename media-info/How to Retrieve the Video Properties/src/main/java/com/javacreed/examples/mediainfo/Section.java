@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-class Section {
+public class Section {
   public static Section parse(final String line) {
     if (line.contains(":")) {
       throw new IllegalArgumentException("Section name should not have ':'");
