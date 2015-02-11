@@ -38,7 +38,7 @@ public class Section {
 
   private final Map<String, NameValue> values = new LinkedHashMap<>();
 
-  public Section(final String name) {
+  private Section(final String name) {
     this.name = Objects.requireNonNull(name);
   }
 
