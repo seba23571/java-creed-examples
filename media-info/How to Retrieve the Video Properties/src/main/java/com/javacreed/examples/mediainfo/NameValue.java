@@ -26,11 +26,11 @@ import java.util.Objects;
 public class NameValue {
 
   public static NameValue parse(final String line) {
-    if (!line.contains(":")) {
-      throw new IllegalArgumentException("The line is expected to have a ':'");
+    if (!line.contains(" : ")) {
+      throw new IllegalArgumentException("The line is expected to have a ' : '");
     }
 
-    final String[] parts = line.split(":", 2);
+    final String[] parts = line.split(" : ", 2);
     return new NameValue(parts[0].trim(), parts[1].trim());
   }
 
