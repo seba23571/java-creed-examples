@@ -35,7 +35,7 @@ public class MediaInfoUtil {
   public static String executeMediaInfo(final String mediaPath) throws IOException, InterruptedException {
     final String exePath = MediaInfoUtil.getMediaInfoCliPath();
     final ProcessBuilder builder = new ProcessBuilder(exePath, mediaPath);
-    builder.redirectErrorStream();
+    builder.redirectErrorStream(true);
     final Process process = builder.start();
 
     final StringBuilder buffer = new StringBuilder();
