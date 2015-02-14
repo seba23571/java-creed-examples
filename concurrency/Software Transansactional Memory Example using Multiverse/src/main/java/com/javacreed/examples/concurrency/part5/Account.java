@@ -55,17 +55,17 @@ public class Account {
     });
   }
 
-  @Override
-  public String toString() {
-      return StmUtils.atomic(new TxnCallable<String>() {
-          @Override
-          public String call(Txn txn) throws Exception {
-              return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
-          }
-      });
+  public int getBalance(final Txn txn) {
+    return balance.get(txn);
   }
 
-    public int getBalance(Txn txn) {
-        return balance.get(txn);
-    }
+  @Override
+  public String toString() {
+    return StmUtils.atomic(new TxnCallable<String>() {
+      @Override
+      public String call(final Txn txn) throws Exception {
+        return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
+      }
+    });
+  }
 }

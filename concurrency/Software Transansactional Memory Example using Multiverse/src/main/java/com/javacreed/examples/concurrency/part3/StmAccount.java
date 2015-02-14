@@ -47,12 +47,12 @@ public class StmAccount {
 
   @Override
   public String toString() {
-      return StmUtils.atomic(new TxnCallable<String>() {
-          @Override
-          public String call(Txn txn) throws Exception {
-              return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
-          }
-      });
+    return StmUtils.atomic(new TxnCallable<String>() {
+      @Override
+      public String call(final Txn txn) throws Exception {
+        return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
+      }
+    });
 
   }
 }

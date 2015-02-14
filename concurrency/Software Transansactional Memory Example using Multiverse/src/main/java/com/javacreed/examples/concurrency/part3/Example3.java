@@ -26,8 +26,6 @@ import org.slf4j.LoggerFactory;
 
 public class Example3 {
 
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
-
   public static void main(final String[] args) throws Exception {
     // Break point 1
     final int limit = 10000000;
@@ -39,5 +37,7 @@ public class Example3 {
     // Break point 2
     Example3.LOGGER.debug("Done");
   }
+
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
 
 }
