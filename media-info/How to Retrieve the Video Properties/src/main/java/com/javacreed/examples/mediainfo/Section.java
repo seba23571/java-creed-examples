@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Section {
-  public static Section parse(final String line) {
+  public static Section parse(final String line) throws IllegalArgumentException {
     if (line.contains(":")) {
       throw new IllegalArgumentException("Section name should not have ':'");
     }
@@ -42,7 +42,7 @@ public class Section {
     this.name = Objects.requireNonNull(name);
   }
 
-  public void add(final NameValue nameValue) {
+  public void add(final NameValue nameValue) throws IllegalArgumentException {
     final String name = nameValue.getName();
     if (values.containsKey(name)) {
       throw new IllegalArgumentException("Duplicate name: '" + name + "'");

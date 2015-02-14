@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class NameValue {
 
-  public static NameValue parse(final String line) {
+  public static NameValue parse(final String line) throws IllegalArgumentException {
     if (!line.contains(" : ")) {
       throw new IllegalArgumentException("The line is expected to have a ' : '");
     }
@@ -37,7 +37,7 @@ public class NameValue {
   private final String name;
   private final String value;
 
-  public NameValue(final String name, final String value) {
+  private NameValue(final String name, final String value) {
     this.name = Objects.requireNonNull(name);
     this.value = Objects.requireNonNull(value);
   }
