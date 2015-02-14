@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part1;
+package com.javacreed.examples.concurrency.part5;
 
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
@@ -57,11 +57,15 @@ public class Account {
 
   @Override
   public String toString() {
-    return StmUtils.atomic(new TxnCallable<String>() {
-        @Override
-        public String call(Txn txn) throws Exception {
-            return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
-        }
-    });
+      return StmUtils.atomic(new TxnCallable<String>() {
+          @Override
+          public String call(Txn txn) throws Exception {
+              return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
+          }
+      });
   }
+
+    public int getBalance(Txn txn) {
+        return balance.get(txn);
+    }
 }
