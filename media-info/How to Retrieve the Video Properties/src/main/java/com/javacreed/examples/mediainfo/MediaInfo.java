@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class MediaInfo {
 
-  public static MediaInfo parse(final String data) {
+  public static MediaInfo parse(final String data) throws IllegalArgumentException {
 
     final MediaInfo mediaInfo = new MediaInfo(data);
 
@@ -57,7 +57,7 @@ public class MediaInfo {
     this.rawData = Objects.requireNonNull(rawData);
   }
 
-  private Section addSection(final Section section) {
+  private Section addSection(final Section section) throws IllegalArgumentException {
     final String name = section.getName();
     if (sections.containsKey(name)) {
       throw new IllegalArgumentException("Duplicate section name: '" + name + "'");
