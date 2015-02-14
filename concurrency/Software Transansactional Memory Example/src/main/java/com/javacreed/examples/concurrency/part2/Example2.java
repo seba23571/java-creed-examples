@@ -5,24 +5,24 @@ import org.slf4j.LoggerFactory;
 
 public class Example2 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
 
-    public static void main(String[] args) {
-        Account a = new Account(10);
-        Account b = new Account(10);
+  public static void main(final String[] args) {
+    final Account a = new Account(10);
+    final Account b = new Account(10);
 
-        a.transferBetween(b, 5);
-        LOGGER.debug("Account (a) {}", a);
-        LOGGER.debug("Account (b) {}", b);
+    a.transferBetween(b, 5);
+    Example2.LOGGER.debug("Account (a) {}", a);
+    Example2.LOGGER.debug("Account (b) {}", b);
 
-        try {
-            a.transferBetween(b, 20);
-        } catch (IllegalStateException e) {
-            LOGGER.warn("Failed to transfer money");
-        }
-
-        LOGGER.debug("Account (a) {}", a);
-        LOGGER.debug("Account (b) {}", b);
+    try {
+      a.transferBetween(b, 20);
+    } catch (final IllegalStateException e) {
+      Example2.LOGGER.warn("Failed to transfer money");
     }
+
+    Example2.LOGGER.debug("Account (a) {}", a);
+    Example2.LOGGER.debug("Account (b) {}", b);
+  }
 
 }
