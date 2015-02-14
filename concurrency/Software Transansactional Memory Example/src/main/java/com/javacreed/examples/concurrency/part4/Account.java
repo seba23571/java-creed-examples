@@ -21,12 +21,11 @@
  */
 package com.javacreed.examples.concurrency.part4;
 
+import java.util.Date;
+
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.references.TxnInteger;
-import org.multiverse.api.references.TxnLong;
 import org.multiverse.api.references.TxnRef;
-
-import java.util.Date;
 
 public class Account {
 
@@ -36,10 +35,6 @@ public class Account {
   public Account(final int balance) {
     this.lastUpdate = StmUtils.newTxnRef(new Date());
     this.balance = StmUtils.newTxnInteger(balance);
-  }
-
-  public void adjustBy(final int amount) {
-    adjustBy(amount, new Date());
   }
 
   public void adjustBy(final int amount, final Date date) {

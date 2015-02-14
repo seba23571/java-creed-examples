@@ -21,11 +21,11 @@
  */
 package com.javacreed.examples.concurrency.part4;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Example5 {
 
@@ -33,11 +33,12 @@ public class Example5 {
 
   public static void main(final String[] args) {
     final Account a = new Account(10);
-    Date date = new Date();
+    final Date date = new Date();
     a.adjustBy(-5, date);
     Example5.LOGGER.debug("Account {}", a);
 
-    date.setTime(System.currentTimeMillis()- TimeUnit.HOURS.toMillis(1));
+    // Date is modified outside the transaction
+    date.setTime(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
     Example5.LOGGER.debug("Account {}", a);
   }
 }
