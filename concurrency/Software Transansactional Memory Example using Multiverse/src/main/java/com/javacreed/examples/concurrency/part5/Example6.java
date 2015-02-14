@@ -24,18 +24,15 @@ package com.javacreed.examples.concurrency.part5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 public class Example6 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
-
   public static void main(final String[] args) {
-      Accounts accounts = new Accounts();
-      accounts.addAccount(new Account(10));
-      accounts.addAccount(new Account(20));
+    final Accounts accounts = new Accounts();
+    accounts.addAccount(new Account(10));
+    accounts.addAccount(new Account(20));
 
     Example6.LOGGER.debug("Average Balance: {}", accounts.calculateAverageBalance());
   }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
 }
