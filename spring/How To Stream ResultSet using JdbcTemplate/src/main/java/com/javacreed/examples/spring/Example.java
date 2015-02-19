@@ -1,50 +1,80 @@
+/*
+ * #%L
+ * How To Stream ResultSet using JdbcTemplate
+ * $Id:$
+ * $HeadURL:$
+ * %%
+ * Copyright (C) 2012 - 2015 Java Creed
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package com.javacreed.examples.spring;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class Example {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
+  private static class Data {
+    public static final RowMapper<Data> ROW_MAPPER = new RowMapper<Data>() {
+      @Override
+      public Data mapRow(final ResultSet rs, final int i) throws SQLException {
+        return new Data(rs.getLong("id"), rs.getString("name"));
+      }
+    };
+    private final long id;
+    private final String name;
 
-    public static void main(final String[] args) throws Exception {
-        final ComboPooledDataSource ds = new ComboPooledDataSource();
-        ds.setUser("root");
-        ds.setPassword("root");
-        ds.setMaxPoolSize(2);
-        ds.setDriverClass("com.mysql.jdbc.Driver");
-        ds.setJdbcUrl("jdbc:mysql://localhost:3306/test");
-
-        final JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-        try {
-            Example.LOGGER.debug("Create the test table");
-            jdbcTemplate.update("CREATE TABLE `big_table`(`id` INT(20), `name` VARCHAR(128))");
-
-            final int limit = 10000;
-            Example.LOGGER.debug("Populating the table with {} records", limit);
-            for (int i = 1; i <= limit; i++) {
-                jdbcTemplate.update("INSERT INTO `big_table` VALUES (?, ?)", new Object[] { i, "Pack my box with five dozen liquor jugs." });
-            }
-
-            Example.LOGGER.debug("Reading all rows");
-            jdbcTemplate.query(/*new StreamingStatementCreator(*/"SELECT * FROM `big_table`"/*)*/, new RowCallbackHandler() {
-                @Override
-                public void processRow(final ResultSet rs) throws SQLException {
-                    Example.LOGGER.trace("[{}] {}", rs.getLong("id"), rs.getString("name"));
-                }
-            });
-
-        } finally {
-            jdbcTemplate.update("DROP TABLE `big_table`");
-            ds.close();
-        }
-        Example.LOGGER.debug("Done");
+    public Data(final long id, final String name) {
+      this.id = id;
+      this.name = name;
     }
+
+    @Override
+    public String toString() {
+      return String.format("[%d] %s", id, name);
+    }
+  }
+
+  public static void main(final String[] args) throws Exception {
+    final ComboPooledDataSource ds = DbUtils.createDs();
+    try {
+      final JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+      Example.LOGGER.debug("Reading all rows");
+      final List<Data> rows = jdbcTemplate.query(new StreamingStatementCreator("SELECT * FROM `big_table`"),
+          Data.ROW_MAPPER);
+      // final List<Data> rows = jdbcTemplate.query("SELECT * FROM `big_table`", Data.ROW_MAPPER);
+
+      Example.LOGGER.debug("All records read ({} records)", rows.size());
+
+      // Sleep a bit so that it shows better on the profiler
+      TimeUnit.SECONDS.sleep(10);
+    } finally {
+      DbUtils.closeQuietly(ds);
+    }
+    Example.LOGGER.debug("Done");
+  }
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
 }

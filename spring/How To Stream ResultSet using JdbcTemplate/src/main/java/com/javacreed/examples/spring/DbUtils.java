@@ -21,26 +21,28 @@
  */
 package com.javacreed.examples.spring;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.beans.PropertyVetoException;
 
-import org.springframework.jdbc.core.PreparedStatementCreator;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class StreamingStatementCreator implements PreparedStatementCreator {
+public class DbUtils {
 
-  private final String query;
-
-  public StreamingStatementCreator(final String query) {
-    this.query = query;
+  public static void closeQuietly(final ComboPooledDataSource ds) {
+    if (ds != null) {
+      try {
+        ds.close();
+      } catch (final Exception e) {
+        // Ignore
+      }
+    }
   }
 
-  @Override
-  public PreparedStatement createPreparedStatement(final Connection connection) throws SQLException {
-    final PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_FORWARD_ONLY,
-        ResultSet.CONCUR_READ_ONLY);
-    statement.setFetchSize(Integer.MIN_VALUE);
-    return statement;
+  public static ComboPooledDataSource createDs() throws PropertyVetoException {
+    final ComboPooledDataSource ds = new ComboPooledDataSource();
+    ds.setUser("root");
+    ds.setPassword("root");
+    ds.setDriverClass("com.mysql.jdbc.Driver");
+    ds.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+    return ds;
   }
 }
