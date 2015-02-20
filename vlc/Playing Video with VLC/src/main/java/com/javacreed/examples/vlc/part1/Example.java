@@ -21,6 +21,9 @@
  */
 package com.javacreed.examples.vlc.part1;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -49,9 +52,18 @@ public class Example {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
         frame.setVisible(true);
-
+        
         final EmbeddedMediaPlayer mediaPlayer = embeddedMediaPlayerComponent.getMediaPlayer();
         mediaPlayer.playMedia(mediaPath);
+
+        frame.addWindowListener(new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            try {
+              mediaPlayer.release();
+            }catch(Exception ex){/*Ignore*/}
+          }
+        });
       }
     });
   }
