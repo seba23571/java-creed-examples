@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.javacreed.examples</groupId>
 	<artifactId>paint-over-video-with-vlc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<name>Paint Over Video with VLC</name>
 	<url>http://www.javacreed.com/${project.artifactId}/</url>
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
@@ -21,7 +20,7 @@
 		<project.organization.url>http://www.javacreed.com/</project.organization.url>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<developers>
 		<developer>
 			<id>albert</id>
@@ -81,12 +80,17 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>uk.co.caprica</groupId>
 			<artifactId>vlcj</artifactId>
 			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.10</version>
 		</dependency>
 	</dependencies>
 </project>
