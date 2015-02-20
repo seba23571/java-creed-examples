@@ -29,6 +29,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class CreateBigTable {
 
+  public static final Logger LOGGER = LoggerFactory.getLogger(CreateBigTable.class);
+
   public static void main(final String[] args) throws Exception {
 
     final ComboPooledDataSource ds = DbUtils.createDs();
@@ -67,6 +69,4 @@ public class CreateBigTable {
 
     CreateBigTable.LOGGER.debug("Done");
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(CreateBigTable.class);
 }
