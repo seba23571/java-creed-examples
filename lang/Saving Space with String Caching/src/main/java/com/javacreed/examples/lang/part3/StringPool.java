@@ -24,6 +24,9 @@ package com.javacreed.examples.lang.part3;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.jcip.annotations.NotThreadSafe;
+
+@NotThreadSafe
 public class StringPool {
 
   private final Map<String, String> cache = new HashMap<>();
