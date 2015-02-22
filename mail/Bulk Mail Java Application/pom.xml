@@ -161,6 +161,11 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.2</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -168,6 +173,5 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>
