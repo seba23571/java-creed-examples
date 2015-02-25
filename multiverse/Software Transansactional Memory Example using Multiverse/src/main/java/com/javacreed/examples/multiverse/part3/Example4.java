@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part3;
+package com.javacreed.examples.multiverse.part3;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

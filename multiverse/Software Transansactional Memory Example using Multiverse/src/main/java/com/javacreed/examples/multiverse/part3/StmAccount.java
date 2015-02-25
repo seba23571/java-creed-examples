@@ -19,44 +19,42 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part5;
+package com.javacreed.examples.multiverse.part3;
 
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
 import org.multiverse.api.callables.TxnCallable;
+import org.multiverse.api.callables.TxnIntCallable;
+import org.multiverse.api.callables.TxnLongCallable;
 import org.multiverse.api.references.TxnInteger;
 import org.multiverse.api.references.TxnLong;
 
-public class Account {
+public class StmAccount {
 
   private final TxnLong lastUpdate;
   private final TxnInteger balance;
 
-  public Account(final int balance) {
+  public StmAccount(final int balance) {
     this.lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
     this.balance = StmUtils.newTxnInteger(balance);
   }
 
-  public void adjustBy(final int amount) {
-    adjustBy(amount, System.currentTimeMillis());
-  }
-
-  public void adjustBy(final int amount, final long date) {
-    StmUtils.atomic(new Runnable() {
+  public int getBalance() {
+    return StmUtils.atomic(new TxnIntCallable() {
       @Override
-      public void run() {
-        balance.increment(amount);
-        lastUpdate.set(date);
-
-        if (balance.get() < 0) {
-          throw new IllegalStateException("Not enough money");
-        }
+      public int call(final Txn txn) throws Exception {
+        return balance.get(txn);
       }
     });
   }
 
-  public int getBalance(final Txn txn) {
-    return balance.get(txn);
+  public long getLastUpdate() {
+    return StmUtils.atomic(new TxnLongCallable() {
+      @Override
+      public long call(final Txn txn) throws Exception {
+        return lastUpdate.get(txn);
+      }
+    });
   }
 
   @Override
@@ -67,5 +65,6 @@ public class Account {
         return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
       }
     });
+
   }
 }

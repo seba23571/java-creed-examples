@@ -19,26 +19,25 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part1;
+package com.javacreed.examples.multiverse.part3;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Example1 {
+public class Example3 {
 
-  public static void main(final String[] args) {
-    final Account a = new Account(10);
-    a.adjustBy(-5);
-    Example1.LOGGER.debug("Account {}", a);
-
-    try {
-      a.adjustBy(-10);
-    } catch (final IllegalStateException e) {
-      Example1.LOGGER.warn("Failed to withdraw money");
+  public static void main(final String[] args) throws Exception {
+    // Break point 1
+    final int limit = 10000000;
+    final PojoAccount[] array = new PojoAccount[limit];
+    for (int i = 0; i < limit; i++) {
+      array[i] = new PojoAccount(i);
     }
-    Example1.LOGGER.debug("Account {}", a);
+
+    // Break point 2
+    Example3.LOGGER.debug("Done");
   }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
 
 }

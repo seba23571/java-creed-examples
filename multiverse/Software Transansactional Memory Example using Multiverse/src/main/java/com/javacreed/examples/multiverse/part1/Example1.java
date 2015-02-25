@@ -19,20 +19,26 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part5;
+package com.javacreed.examples.multiverse.part1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Example6 {
+public class Example1 {
 
   public static void main(final String[] args) {
-    final Accounts accounts = new Accounts();
-    accounts.addAccount(new Account(10));
-    accounts.addAccount(new Account(20));
+    final Account a = new Account(10);
+    a.adjustBy(-5);
+    Example1.LOGGER.debug("Account {}", a);
 
-    Example6.LOGGER.debug("Average Balance: {}", accounts.calculateAverageBalance());
+    try {
+      a.adjustBy(-10);
+    } catch (final IllegalStateException e) {
+      Example1.LOGGER.warn("Failed to withdraw money");
+    }
+    Example1.LOGGER.debug("Account {}", a);
   }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+
 }

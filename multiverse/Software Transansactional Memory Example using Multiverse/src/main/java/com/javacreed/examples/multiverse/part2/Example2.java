@@ -19,26 +19,31 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part4;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+package com.javacreed.examples.multiverse.part2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Example5 {
+public class Example2 {
 
   public static void main(final String[] args) {
     final Account a = new Account(10);
-    final Date date = new Date();
-    a.adjustBy(-5, date);
-    Example5.LOGGER.debug("Account {}", a);
+    final Account b = new Account(10);
 
-    // Date is modified outside the transaction
-    date.setTime(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
-    Example5.LOGGER.debug("Account {}", a);
+    a.transferBetween(b, 5);
+    Example2.LOGGER.debug("Account (a) {}", a);
+    Example2.LOGGER.debug("Account (b) {}", b);
+
+    try {
+      a.transferBetween(b, 20);
+    } catch (final IllegalStateException e) {
+      Example2.LOGGER.warn("Failed to transfer money");
+    }
+
+    Example2.LOGGER.debug("Account (a) {}", a);
+    Example2.LOGGER.debug("Account (b) {}", b);
   }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example5.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
+
 }

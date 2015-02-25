@@ -19,27 +19,29 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part4;
-
-import java.util.Date;
+package com.javacreed.examples.multiverse.part5;
 
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
 import org.multiverse.api.callables.TxnCallable;
 import org.multiverse.api.references.TxnInteger;
-import org.multiverse.api.references.TxnRef;
+import org.multiverse.api.references.TxnLong;
 
 public class Account {
 
-  private final TxnRef<Date> lastUpdate;
+  private final TxnLong lastUpdate;
   private final TxnInteger balance;
 
   public Account(final int balance) {
-    this.lastUpdate = StmUtils.newTxnRef(new Date());
+    this.lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
     this.balance = StmUtils.newTxnInteger(balance);
   }
 
-  public void adjustBy(final int amount, final Date date) {
+  public void adjustBy(final int amount) {
+    adjustBy(amount, System.currentTimeMillis());
+  }
+
+  public void adjustBy(final int amount, final long date) {
     StmUtils.atomic(new Runnable() {
       @Override
       public void run() {
@@ -53,6 +55,10 @@ public class Account {
     });
   }
 
+  public int getBalance(final Txn txn) {
+    return balance.get(txn);
+  }
+
   @Override
   public String toString() {
     return StmUtils.atomic(new TxnCallable<String>() {
@@ -61,6 +67,5 @@ public class Account {
         return String.format("%d (as of %tF %<tT)", balance.get(txn), lastUpdate.get(txn));
       }
     });
-
   }
 }
