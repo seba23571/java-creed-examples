@@ -19,28 +19,20 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part3;
+package com.javacreed.examples.multiverse.part5;
 
-public class PojoAccount {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-  private final long lastUpdate;
-  private final int balance;
+public class Example6 {
 
-  public PojoAccount(final int balance) {
-    this.lastUpdate = System.currentTimeMillis();
-    this.balance = balance;
+  public static void main(final String[] args) {
+    final Accounts accounts = new Accounts();
+    accounts.addAccount(new Account(10));
+    accounts.addAccount(new Account(20));
+
+    Example6.LOGGER.debug("Average Balance: {}", accounts.calculateAverageBalance());
   }
 
-  public int getBalance() {
-    return balance;
-  }
-
-  public long getLastUpdate() {
-    return lastUpdate;
-  }
-
-  @Override
-  public String toString() {
-    return String.format("%d (as of %tF %<tT)", balance, lastUpdate);
-  }
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
 }

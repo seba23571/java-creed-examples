@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.concurrency.part1;
+package com.javacreed.examples.multiverse.part1;
 
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
