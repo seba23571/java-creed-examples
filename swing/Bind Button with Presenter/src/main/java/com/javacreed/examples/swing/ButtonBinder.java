@@ -32,16 +32,16 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-public class TextFieldBinder extends AbstractBinder<JTextField> {
+public class ButtonBinder extends AbstractBinder<JTextField> {
 
   protected Document document;
   protected final EventListenerList listenerList = new EventListenerList();
 
-  public TextFieldBinder() {
+  public ButtonBinder() {
     this(null);
   }
 
-  public TextFieldBinder(final Document document) {
+  public ButtonBinder(final Document document) {
     if (document == null) {
       this.document = createDefaultModel();
     } else {
