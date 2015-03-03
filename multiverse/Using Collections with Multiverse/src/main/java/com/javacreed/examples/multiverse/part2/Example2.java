@@ -38,6 +38,7 @@ public class Example2 {
     Example2.LOGGER.debug("Size of group: {}", g.size());
     Example2.LOGGER.debug("Size of group: {}", g);
 
+    // The remove will not work as expected
     final boolean removed = g.removeMember(a);
     Example2.LOGGER.debug("Member removed: {}", removed);
     Example2.LOGGER.debug("Size of group: {}", g.size());
