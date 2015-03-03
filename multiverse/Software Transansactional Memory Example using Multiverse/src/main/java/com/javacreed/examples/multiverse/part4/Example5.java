@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example5 {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example5.class);
+
   public static void main(final String[] args) {
     final Account a = new Account(10);
     final Date date = new Date();
@@ -39,6 +41,4 @@ public class Example5 {
     date.setTime(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
     Example5.LOGGER.debug("Account {}", a);
   }
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example5.class);
 }

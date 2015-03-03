@@ -21,12 +21,6 @@
  */
 package com.javacreed.examples.multiverse;
 
-import java.util.concurrent.TimeUnit;
-
-import org.multiverse.api.StmUtils;
-import org.multiverse.api.Txn;
-import org.multiverse.api.callables.TxnCallable;
-import org.multiverse.api.references.TxnInteger;
 
 public class Account {
 

@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example1 {
 
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+
   public static void main(final String[] args) throws InterruptedException {
     final PojoAccount a = new PojoAccount(10);
     final PojoAccount b = new PojoAccount(5);
@@ -40,7 +42,5 @@ public class Example1 {
     Example1.LOGGER.debug("Account b: {}", b);
     Example1.LOGGER.debug("Done.");
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
 
 }

@@ -21,8 +21,6 @@
  */
 package com.javacreed.examples.multiverse.part2;
 
-import java.util.concurrent.TimeUnit;
-
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
 import org.multiverse.api.callables.TxnCallable;
@@ -44,18 +42,13 @@ public class Account {
 
         balance.increment(amount);
 
-        
         if (balance.get() < 0) {
           throw new InsufficientFundsException();
         }
       }
     });
   }
-  
-  protected void waitABit(){
-    
-  }
-  
+
   @Override
   public String toString() {
     return StmUtils.atomic(new TxnCallable<String>() {
@@ -74,5 +67,9 @@ public class Account {
         other.adjustBy(amount);
       }
     });
+  }
+
+  protected void waitABit() {
+
   }
 }

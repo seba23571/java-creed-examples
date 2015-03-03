@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example1 {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+
   public static void main(final String[] args) {
     final Account a = new Account(10);
     a.adjustBy(-5);
@@ -38,7 +40,5 @@ public class Example1 {
     }
     Example1.LOGGER.debug("Account {}", a);
   }
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
 
 }

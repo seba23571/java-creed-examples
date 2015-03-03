@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example3 {
 
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
+
   public static void main(final String[] args) throws InterruptedException {
     final StmAccount a = new StmAccount(10);
     final StmAccount b = new StmAccount(5);
@@ -61,7 +63,5 @@ public class Example3 {
     Example3.LOGGER.debug("Account b: {}", b);
     Example3.LOGGER.debug("Done.");
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
 
 }
