@@ -21,36 +21,36 @@
  */
 package com.javacreed.examples.multiverse.internal;
 
-import com.javacreed.examples.multiverse.Account;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.javacreed.examples.multiverse.Account;
+
 public class ExampleActivator implements BundleActivator {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(ExampleActivator.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(ExampleActivator.class);
 
-    @Override
-    public void start(BundleContext bundleContext) throws Exception {
-        //try {
-            final Account a = new Account(10);
-            final Account b = new Account(5);
+  @Override
+  public void start(final BundleContext bundleContext) throws Exception {
+    // try {
+    final Account a = new Account(10);
+    final Account b = new Account(5);
 
-            LOGGER.debug("Transfer money from account b to account a");
-            a.transferBetween(b, 10);
-            LOGGER.debug("Transfer complete");
+    ExampleActivator.LOGGER.debug("Transfer money from account b to account a");
+    a.transferBetween(b, 10);
+    ExampleActivator.LOGGER.debug("Transfer complete");
 
-            LOGGER.debug("Both threads finished");
-            LOGGER.debug("Account a: {}", a);
-            LOGGER.debug("Account b: {}", b);
-            LOGGER.debug("Done.");
-//        }catch(Throwable e){
-//            LOGGER.error("Failed to run example", e);
-//        }
-    }
+    ExampleActivator.LOGGER.debug("Both threads finished");
+    ExampleActivator.LOGGER.debug("Account a: {}", a);
+    ExampleActivator.LOGGER.debug("Account b: {}", b);
+    ExampleActivator.LOGGER.debug("Done.");
+    // }catch(Throwable e){
+    // LOGGER.error("Failed to run example", e);
+    // }
+  }
 
-    @Override
-    public void stop(BundleContext bundleContext) throws Exception {
-    }
+  @Override
+  public void stop(final BundleContext bundleContext) throws Exception {}
 }

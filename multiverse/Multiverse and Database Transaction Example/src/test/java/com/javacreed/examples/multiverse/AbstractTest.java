@@ -64,7 +64,7 @@ public class AbstractTest {
             final Account account = new Account(resultSet.getInt("account_id"), resultSet.getInt("balance"));
             return account;
           }
-    });
+        });
   }
 
 }

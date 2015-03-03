@@ -50,6 +50,8 @@ public class Example2 {
     }
   }
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
+
   public static void main(final String[] args) throws InterruptedException {
     final PojoAccount a = new PojoAccountWithWait(10);
     final PojoAccount b = new PojoAccountWithWait(5);
@@ -86,7 +88,5 @@ public class Example2 {
     Example2.LOGGER.debug("Account b: {}", b);
     Example2.LOGGER.debug("Done.");
   }
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
 
 }

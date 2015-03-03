@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Example4 {
 
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example4.class);
+
   public static void main(final String[] args) throws InterruptedException {
     final PojoGroup group = new PojoGroup();
     final PojoMember member = new PojoMember();
@@ -63,7 +65,5 @@ public class Example4 {
     Example4.LOGGER.debug("Both threads finished");
     Example4.LOGGER.debug("Done.");
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example4.class);
 
 }

@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example6 {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
+
   public static void main(final String[] args) {
     final Accounts accounts = new Accounts();
     accounts.addAccount(new Account(10));
@@ -33,6 +35,4 @@ public class Example6 {
 
     Example6.LOGGER.debug("Average Balance: {}", accounts.calculateAverageBalance());
   }
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example6.class);
 }

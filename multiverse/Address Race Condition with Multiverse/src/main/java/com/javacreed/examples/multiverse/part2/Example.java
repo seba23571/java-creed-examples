@@ -21,7 +21,6 @@
  */
 package com.javacreed.examples.multiverse.part2;
 
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -31,20 +30,22 @@ public class Example {
 
   private static class DelayedAccount extends Account {
 
-    public DelayedAccount(int balance) {
+    public DelayedAccount(final int balance) {
       super(balance);
     }
-    
+
     @Override
     protected void waitABit() {
       try {
-          TimeUnit.SECONDS.sleep(2);
-      } catch (InterruptedException e) {
+        TimeUnit.SECONDS.sleep(2);
+      } catch (final InterruptedException e) {
         Thread.currentThread().interrupt();
       }
     }
   }
-  
+
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
+
   public static void main(final String[] args) throws InterruptedException {
 
     final Account a = new DelayedAccount(10);
@@ -53,18 +54,26 @@ public class Example {
     // Transfer 5 from b to a using thread 1
     final Thread t1 = new Thread(new Runnable() {
       @Override
-      public void run() {try{
-        a.transferBetween(b, 10);
-      LOGGER.debug("Transfer complete");
-      }catch(InsufficientFundsException e){LOGGER.warn("Insufficient Funds!!");}
+      public void run() {
+        try {
+          a.transferBetween(b, 10);
+          Example.LOGGER.debug("Transfer complete");
+        } catch (final InsufficientFundsException e) {
+          Example.LOGGER.warn("Insufficient Funds!!");
+        }
       }
     }, "T1");
 
     // Transfer 5 from a to b using thread 2
     final Thread t2 = new Thread(new Runnable() {
       @Override
-      public void run() {try{
-        a.transferBetween(b, 10);LOGGER.debug("Transfer complete");}catch(InsufficientFundsException e){LOGGER.warn("Insufficient Funds!!");}
+      public void run() {
+        try {
+          a.transferBetween(b, 10);
+          Example.LOGGER.debug("Transfer complete");
+        } catch (final InsufficientFundsException e) {
+          Example.LOGGER.warn("Insufficient Funds!!");
+        }
       }
     }, "T2");
 
@@ -83,7 +92,5 @@ public class Example {
     Example.LOGGER.debug("Account b: {}", b);
     Example.LOGGER.debug("Done.");
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example.class);
 
 }

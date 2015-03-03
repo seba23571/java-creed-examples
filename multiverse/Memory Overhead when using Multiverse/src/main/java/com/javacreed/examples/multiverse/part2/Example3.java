@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 
 public class Example3 {
 
+  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
+
   public static void main(final String[] args) throws InterruptedException {
 
     final int limit = 10000000;
@@ -41,7 +43,5 @@ public class Example3 {
     Example3.LOGGER.debug("Done.");
     TimeUnit.SECONDS.sleep(5);
   }
-
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example3.class);
 
 }
