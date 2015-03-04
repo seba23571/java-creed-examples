@@ -21,7 +21,6 @@
  */
 package com.javacreed.examples.multiverse;
 
-
 public class Account {
 
   private final TxnInteger balance;
