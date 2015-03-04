@@ -24,6 +24,7 @@ package com.javacreed.examples.multiverse.part3;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.multiverse.api.GlobalStmInstance;
 import org.multiverse.api.Stm;
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;
@@ -421,6 +422,10 @@ public class BasicTxnHashMap<K, V> extends AbstractTxnMap<K, V> {
    * @serial
    */
   private final float loadFactor;
+
+  public BasicTxnHashMap() {
+    this(GlobalStmInstance.getGlobalStmInstance());
+  }
 
   public BasicTxnHashMap(final Stm stm) {
     super(stm);
