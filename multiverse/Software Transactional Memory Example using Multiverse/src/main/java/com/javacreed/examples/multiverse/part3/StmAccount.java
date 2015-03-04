@@ -35,7 +35,7 @@ public class StmAccount {
   private final TxnInteger balance;
 
   public StmAccount(final int balance) {
-    this.lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
+    lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
     this.balance = StmUtils.newTxnInteger(balance);
   }
 

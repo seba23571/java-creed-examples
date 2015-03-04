@@ -22,11 +22,12 @@
 package com.javacreed.examples.multiverse.part1;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.javacreed.examples.multiverse.utils.LoggerUtils;
 
 public class Example1 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+  private static final Logger LOGGER = LoggerUtils.getLogger(Example1.class);
 
   public static void main(final String[] args) {
     final Member a = new Member();

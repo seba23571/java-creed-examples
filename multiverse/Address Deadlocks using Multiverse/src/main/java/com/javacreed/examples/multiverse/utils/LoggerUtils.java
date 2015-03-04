@@ -1,6 +1,6 @@
 /*
  * #%L
- * Software Transansactional Memory Example using Multiverse
+ * Address Deadlocks using Multiverse
  * $Id:$
  * $HeadURL:$
  * %%

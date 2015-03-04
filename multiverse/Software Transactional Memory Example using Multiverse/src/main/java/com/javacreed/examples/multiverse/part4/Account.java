@@ -35,7 +35,7 @@ public class Account {
   private final TxnInteger balance;
 
   public Account(final int balance) {
-    this.lastUpdate = StmUtils.newTxnRef(new Date());
+    lastUpdate = StmUtils.newTxnRef(new Date());
     this.balance = StmUtils.newTxnInteger(balance);
   }
 
