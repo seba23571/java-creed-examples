@@ -28,10 +28,10 @@ import org.multiverse.api.collections.TxnMap;
 
 public abstract class AbstractHashMapTest {
 
-    protected <K, V> TxnMap<K, V> createMap() {
-        final Stm stm = GlobalStmInstance.getGlobalStmInstance();
-        TxnThreadLocal.clearThreadLocalTxn();
+  protected <K, V> TxnMap<K, V> createMap() {
+    final Stm stm = GlobalStmInstance.getGlobalStmInstance();
+    TxnThreadLocal.clearThreadLocalTxn();
 
-        return new BasicTxnHashMap<>(stm);
-    }
+    return new BasicTxnHashMap<>(stm);
+  }
 }
