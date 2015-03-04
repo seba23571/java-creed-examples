@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.javacreed.examples</groupId>
-	<artifactId>software-transansactional-memory-example-using-multiverse</artifactId>
+	<artifactId>software-transactional-memory-example-using-multiverse</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>Software Transansactional Memory Example using Multiverse</name>
+	<name>Software Transactional Memory Example using Multiverse</name>
 	<url>http://www.javacreed.com/${project.artifactId}/</url>
 	<inceptionYear>${project.inceptionYear}</inceptionYear>
 	<organization>
