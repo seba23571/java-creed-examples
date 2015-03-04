@@ -1,6 +1,6 @@
 /*
  * #%L
- * Software Transansactional Memory Example using Multiverse
+ * Multiverse and Database Transaction Example
  * $Id:$
  * $HeadURL:$
  * %%

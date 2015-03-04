@@ -25,10 +25,16 @@ import org.multiverse.api.GlobalStmInstance;
 import org.multiverse.api.Stm;
 import org.multiverse.api.TxnThreadLocal;
 import org.multiverse.api.collections.TxnList;
+import org.slf4j.Logger;
+
+import com.javacreed.examples.multiverse.utils.LoggerUtils;
 
 public abstract class AbstractLinkedListTest {
 
+  private static final Logger LOGGER = LoggerUtils.getLogger(AbstractLinkedListTest.class);
+
   protected <E> TxnList<E> createList() {
+    AbstractLinkedListTest.LOGGER.trace("Creating List");
     final Stm stm = GlobalStmInstance.getGlobalStmInstance();
     TxnThreadLocal.clearThreadLocalTxn();
 

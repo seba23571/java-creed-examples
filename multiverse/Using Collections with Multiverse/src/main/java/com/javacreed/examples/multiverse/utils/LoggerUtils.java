@@ -1,6 +1,6 @@
 /*
  * #%L
- * Software Transansactional Memory Example using Multiverse
+ * Using Collections with Multiverse
  * $Id:$
  * $HeadURL:$
  * %%

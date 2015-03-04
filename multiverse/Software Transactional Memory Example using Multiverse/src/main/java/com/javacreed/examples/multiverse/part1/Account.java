@@ -33,7 +33,7 @@ public class Account {
   private final TxnInteger balance;
 
   public Account(final int balance) {
-    this.lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
+    lastUpdate = StmUtils.newTxnLong(System.currentTimeMillis());
     this.balance = StmUtils.newTxnInteger(balance);
   }
 

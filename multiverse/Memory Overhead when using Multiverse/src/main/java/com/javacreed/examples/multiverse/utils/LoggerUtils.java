@@ -1,6 +1,6 @@
 /*
  * #%L
- * Software Transansactional Memory Example using Multiverse
+ * Memory Overhead when using Multiverse
  * $Id:$
  * $HeadURL:$
  * %%

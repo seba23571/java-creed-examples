@@ -26,11 +26,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.javacreed.examples.multiverse.utils.LoggerUtils;
 
 public class Example1 {
 
-  public static final Logger LOGGER = LoggerFactory.getLogger(Example1.class);
+  public static final Logger LOGGER = LoggerUtils.getLogger(Example1.class);
 
   public static void main(final String[] args) throws InterruptedException {
 

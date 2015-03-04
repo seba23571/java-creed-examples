@@ -25,10 +25,16 @@ import org.multiverse.api.GlobalStmInstance;
 import org.multiverse.api.Stm;
 import org.multiverse.api.TxnThreadLocal;
 import org.multiverse.api.collections.TxnMap;
+import org.slf4j.Logger;
+
+import com.javacreed.examples.multiverse.utils.LoggerUtils;
 
 public abstract class AbstractHashMapTest {
 
+  private static final Logger LOGGER = LoggerUtils.getLogger(AbstractHashMapTest.class);
+
   protected <K, V> TxnMap<K, V> createMap() {
+    AbstractHashMapTest.LOGGER.trace("Creating Map");
     final Stm stm = GlobalStmInstance.getGlobalStmInstance();
     TxnThreadLocal.clearThreadLocalTxn();
 

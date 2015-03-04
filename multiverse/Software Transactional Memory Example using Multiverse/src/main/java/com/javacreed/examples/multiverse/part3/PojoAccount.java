@@ -27,7 +27,7 @@ public class PojoAccount {
   private final int balance;
 
   public PojoAccount(final int balance) {
-    this.lastUpdate = System.currentTimeMillis();
+    lastUpdate = System.currentTimeMillis();
     this.balance = balance;
   }
 

@@ -22,11 +22,12 @@
 package com.javacreed.examples.multiverse.part2;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.javacreed.examples.multiverse.utils.LoggerUtils;
 
 public class Example2 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Example2.class);
+  private static final Logger LOGGER = LoggerUtils.getLogger(Example2.class);
 
   public static void main(final String[] args) {
     final Group g = new Group();

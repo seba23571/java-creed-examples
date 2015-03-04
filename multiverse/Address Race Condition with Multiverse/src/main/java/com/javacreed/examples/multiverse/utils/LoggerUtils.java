@@ -1,6 +1,6 @@
 /*
  * #%L
- * Software Transansactional Memory Example using Multiverse
+ * Address Race Condition with Multiverse
  * $Id:$
  * $HeadURL:$
  * %%
