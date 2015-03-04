@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.multiverse.part2;
+package com.javacreed.examples.multiverse;
 
 import org.multiverse.api.StmUtils;
 import org.multiverse.api.Txn;

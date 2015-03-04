@@ -19,7 +19,7 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.multiverse.part2;
+package com.javacreed.examples.multiverse;
 
 public class InsufficientFundsException extends RuntimeException {
 
