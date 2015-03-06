@@ -1,15 +1,15 @@
 package com.javacreed.examples.io;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 
 public class Example {
 
     public static void main(final String[] args) throws Exception {
-        final Path file = new File(Example.class.getResource("/samples/example.txt").toURI()).getAbsoluteFile().toPath();
+        final Path file = Paths.get(Example.class.getResource("/samples/example.txt").toURI()).toAbsolutePath();
 
         final UserDefinedFileAttributeView view = Files.getFileAttributeView(file, UserDefinedFileAttributeView.class);
 
