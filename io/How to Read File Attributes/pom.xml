@@ -95,4 +95,13 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>uk.co.caprica</groupId>
+			<artifactId>vlcj</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+	</dependencies>
+
 </project>
