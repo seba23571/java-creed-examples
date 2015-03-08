@@ -19,21 +19,18 @@
  * limitations under the License.
  * #L%
  */
-package com.javacreed.examples.mail;
+package com.javacreed.examples.mail.sendtest;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.table.TableModel;
+import java.util.Set;
 
-public interface Presenter {
+import javax.swing.Action;
 
-  TableModel getDataTableModel();
+public interface SendTestPresenter {
+  Action getCancelAction();
 
-  ComboBoxModel<String> getHeadersComboBoxModel();
+  Action getSendAction();
 
-  TableModel getVariablesTableModel();
+  Set<String> getVariablesNames();
 
   void onClosing();
-
-  void onDataValueChanged(int index);
-
 }

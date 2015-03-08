@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -34,9 +35,10 @@ import javax.swing.Action;
 import javax.swing.ComboBoxModel;
 import javax.swing.table.TableModel;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.javacreed.examples.mail.sendtest.SendTestDefaultPresenter;
 
 /**
  * TODO: The file encoding is took for granted as UTF-8
@@ -52,12 +54,16 @@ public class MainPresenter implements Presenter {
 
   private View view;
 
+  private Action newAction;
   private Action openAction;
   private Action saveAction;
   private Action backAction;
   private Action nextAction;
   private Action sendAction;
+  private Action sendTestAction;
   private Action stopAction;
+
+  private SendMailWorker sendMailWorker;
 
   @Override
   public TableModel getDataTableModel() {
@@ -75,40 +81,56 @@ public class MainPresenter implements Presenter {
   }
 
   private void initActions() {
-    sendAction = PresenterUtils.createAction("Send", new ActionListener() {
+    newAction = SwingUtils.createAction("New", new ActionListener() {
       @Override
-      public void actionPerformed(final ActionEvent e) {}
+      public void actionPerformed(final ActionEvent e) {
+        onNew();
+      }
     });
 
-    saveAction = PresenterUtils.createAction("Save", new ActionListener() {
+    sendAction = SwingUtils.createAction("Send", new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        onSend();
+      }
+    });
+
+    sendTestAction = SwingUtils.createAction("Send Test", new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        onSendTest();
+      }
+    });
+
+    saveAction = SwingUtils.createAction("Save", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onSave();
       }
     });
 
-    openAction = PresenterUtils.createAction("Open", new ActionListener() {
+    openAction = SwingUtils.createAction("Open", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onOpen();
       }
     });
 
-    nextAction = PresenterUtils.createAction("Next", new ActionListener() {
+    nextAction = SwingUtils.createAction("Next", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onNext();
       }
     });
 
-    backAction = PresenterUtils.createAction("Back", new ActionListener() {
+    backAction = SwingUtils.createAction("Back", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onBack();
       }
     });
 
-    stopAction = PresenterUtils.createAction("Stop", new ActionListener() {
+    stopAction = SwingUtils.createAction("Stop", new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         onStop();
@@ -128,30 +150,36 @@ public class MainPresenter implements Presenter {
 
   @Override
   public void onClosing() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
     view.showView(false);
     view.destroy();
   }
 
   @Override
   public void onDataValueChanged(final int index) {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
+    final Email email = model.createEmail(index);
+    view.setPreviewMessage(email.getMessage());
+  }
 
-    String message = model.getMessage();
-    for (final VariableColumnBinding binding : model.getVariablesColumnBindings()) {
-      if (message.contains("${" + binding.getVariableName() + "}")) {
-        final String dataColumn = binding.getDataColumn();
-        final String value;
-        if (dataColumn == null) {
-          value = binding.getVariableName();
-        } else {
-          value = model.getDataTableModel().getCellValueAt(index, dataColumn);
-        }
-        message = message.replaceAll("\\$\\{" + binding.getVariableName() + "\\}", value);
-      }
+  private void onNew() {
+    File selectedFile = view.showNewDialog(model.getCurrentComposerDirectory(), model.getCurrentComposerFile(),
+        ComposerFileFilter.INSTANCE);
+    if (selectedFile == null) {
+      return;
     }
 
-    view.setPreviewMessage(message);
+    selectedFile = selectedFile.getAbsoluteFile();
+
+    // Add the '.composer' extension if missing
+    if (!selectedFile.getName().endsWith(".composer")) {
+      selectedFile = new File(selectedFile.getParent(), selectedFile.getName() + ".composer");
+    }
+
+    // TODO: check if the file exists and warn the user before continuing
+    model.setMessage("");
+    model.setCurrentComposerFile(selectedFile);
+    view.setEditorMessage(model.getMessage());
+    view.setStatus("Working on file: " + selectedFile.getName() + " (found in folder: "
+        + selectedFile.getParentFile().getAbsolutePath() + ")");
   }
 
   private void onNext() {
@@ -166,7 +194,6 @@ public class MainPresenter implements Presenter {
   }
 
   private void onNextFromDataPane() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
 
     // Validate
     final Set<String> selectedColumns = new HashSet<>();
@@ -188,7 +215,6 @@ public class MainPresenter implements Presenter {
   }
 
   private void onNextFromMessagePane() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
 
     final String message = view.getEditorMessage();
     if (message.length() == 0) {
@@ -197,14 +223,34 @@ public class MainPresenter implements Presenter {
     }
 
     model.setMessage(message);
-
     onShowDataPane();
   }
 
   private void onOpen() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
 
-    final File selectedFile = view.showOpenDialog(model.getCurrentDirectory(), model.getCurrentMessageFile());
+    try {
+
+      switch (model.getShowingPane()) {
+      case MESSAGE_PANE:
+        onOpenComposerFile();
+        break;
+      case DATA_PANE:
+        onOpenDataFile();
+        break;
+      }
+
+    } catch (final ClassNotFoundException e) {
+      MainPresenter.LOGGER.error("Failed to read file", e);
+      view.showWarn("Open", "Failed to loadComposer file");
+    } catch (final IOException e) {
+      MainPresenter.LOGGER.error("Failed to read file", e);
+      view.showWarn("Open", "Failed to read file");
+    }
+  }
+
+  private void onOpenComposerFile() throws IOException, ClassNotFoundException {
+    final File selectedFile = view.showOpenDialog(model.getCurrentComposerDirectory(), model.getCurrentComposerFile(),
+        ComposerFileFilter.INSTANCE);
     if (selectedFile == null) {
       return;
     }
@@ -214,44 +260,49 @@ public class MainPresenter implements Presenter {
       return;
     }
 
-    try {
-      final String text = FileUtils.readFileToString(selectedFile, "UTF-8");
+    model.loadComposer(selectedFile);
 
-      switch (model.getShowingPane()) {
-      case MESSAGE_PANE:
-        model.setMessage(text);
-        model.setCurrentMessageFile(selectedFile);
-        model.setCurrentDirectory(selectedFile.getParentFile());
-        view.setEditorMessage(model.getMessage());
-        view.setStatus("Working on file: " + selectedFile.getName() + " (found in folder: "
-            + selectedFile.getParentFile().getAbsolutePath() + ")");
-        break;
-      case DATA_PANE:
-        model.setData(text);
-        break;
-      }
+    view.setSubject(model.getSubject());
+    view.setEditorMessage(model.getMessage());
+    view.setStatus("Working on file: " + selectedFile.getName() + " (found in folder: "
+        + selectedFile.getParentFile().getAbsolutePath() + ")");
+  }
 
-    } catch (final IOException e) {
-      MainPresenter.LOGGER.error("Failed to read file {}", selectedFile, e);
-      view.showWarn("Open", "Failed to read file");
+  private void onOpenDataFile() throws IOException {
+    // TODO: add a CSV file filter
+    final File selectedFile = view.showOpenDialog(model.getCurrentDataDirectory(), model.getCurrentDataFile(), null);
+    if (selectedFile == null) {
+      return;
     }
+
+    if (!selectedFile.isFile()) {
+      view.showWarn("Open", "The selected file is not a file");
+      return;
+    }
+
+    model.loadData(selectedFile);
+    view.setStatus("Working on file: " + selectedFile.getName() + " (found in folder: "
+        + selectedFile.getParentFile().getAbsolutePath() + ")");
   }
 
   private void onSave() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
     final String message = view.getEditorMessage();
 
-    File file = model.getCurrentMessageFile();
+    File file = model.getCurrentComposerFile();
     if (file == null) {
       // No file is open.
-      file = view.showSaveDialog(model.getCurrentDirectory(), null);
+      file = view.showSaveDialog(model.getCurrentComposerDirectory(), null, null);
       if (file == null) {
         return;
       }
+
+      model.setCurrentComposerFile(file);
     }
 
     try {
-      FileUtils.write(file, message, "UTF-8");
+      model.setSubject(view.getSubject());
+      model.setMessage(view.getEditorMessage());
+      model.save();
       view.setStatus("File Saved");
     } catch (final IOException e) {
       MainPresenter.LOGGER.error("Failed to save the message to file: {}", file, e);
@@ -259,23 +310,63 @@ public class MainPresenter implements Presenter {
     }
   }
 
+  private void onSend() {
+    if (sendMailWorker != null) {
+      view.showWarn("Send Email", "Please note that the emails are being sent");
+      return;
+    }
+
+    final List<Email> emails = new LinkedList<>();
+
+    sendMailWorker = new SendMailWorker(emails) {
+      @Override
+      protected void done() {
+        view.showMessage("Send Email", "The emails were sent");
+        sendMailWorker = null;
+      }
+    };
+    sendMailWorker.execute();
+  }
+
+  private void onSendTest() {
+    final String message = view.getEditorMessage();
+    if (message.length() == 0) {
+      view.showWarn("Send Test Email", "You cannot send a blank test email");
+      return;
+    }
+    model.setMessage(message);
+
+    final SendTestDefaultPresenter presenter = new SendTestDefaultPresenter();
+    presenter.setView(view.getSendTestView());
+    presenter.setModel(model);
+    presenter.start();
+
+  }
+
   private void onShowDataPane() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
+    view.setPreviewMessage(model.getMessage());
     view.showPane(model.setShowingPane(ViewPane.DATA_PANE), openAction, backAction, nextAction);
   }
 
   private void onShowMessagePane() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
     view.setEditorMessage(model.getMessage());
-    view.showPane(model.setShowingPane(ViewPane.MESSAGE_PANE), openAction, saveAction, nextAction);
+    view.showPane(model.setShowingPane(ViewPane.MESSAGE_PANE), newAction, openAction, saveAction, sendTestAction,
+        nextAction);
   }
 
   private void onShowSendEmailPane() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
     view.showPane(model.setShowingPane(ViewPane.SEND_EMAIL_PANE), stopAction, sendAction);
   }
 
-  private void onStop() {}
+  private void onStop() {
+
+    if (sendMailWorker == null) {
+      return;
+    }
+
+    sendMailWorker.cancel(true);
+    sendMailWorker = null;
+  }
 
   private void registerDefaultErrorHandler() {
     final Thread.UncaughtExceptionHandler handler = Thread.currentThread().getUncaughtExceptionHandler();
@@ -308,7 +399,6 @@ public class MainPresenter implements Presenter {
   }
 
   public void start() {
-    final View view = PresenterUtils.requireNonNull(this.view, "view");
 
     registerDefaultErrorHandler();
 

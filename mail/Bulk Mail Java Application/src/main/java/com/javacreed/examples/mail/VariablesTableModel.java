@@ -27,9 +27,6 @@ import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
-/**
- * Created by Albert on 06/02/2015.
- */
 public class VariablesTableModel extends AbstractTableModel {
 
   private static final long serialVersionUID = -4650828037160732957L;
@@ -91,7 +88,6 @@ public class VariablesTableModel extends AbstractTableModel {
 
   public void setVariables(final Set<String> variables) {
     values.clear();
-    values.add(new VariableColumnBinding("Email"));
     for (final String variable : variables) {
       values.add(new VariableColumnBinding(variable));
     }

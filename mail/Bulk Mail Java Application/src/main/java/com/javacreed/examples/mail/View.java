@@ -24,15 +24,19 @@ package com.javacreed.examples.mail;
 import java.io.File;
 
 import javax.swing.Action;
+import javax.swing.filechooser.FileFilter;
 
-/**
- * Created by Albert on 06/02/2015.
- */
+import com.javacreed.examples.mail.sendtest.SendTestView;
+
 public interface View {
 
   void destroy();
 
   String getEditorMessage();
+
+  SendTestView getSendTestView();
+
+  String getSubject();
 
   void init();
 
@@ -44,13 +48,19 @@ public interface View {
 
   void setStatus(String status);
 
+  void setSubject(String subject);
+
   void showError(String title, String message);
 
-  File showOpenDialog(File currentDirectory, File currentFile);
+  void showMessage(String title, String message);
+
+  File showNewDialog(File currentDirectory, File currentMessageFile, FileFilter instance);
+
+  File showOpenDialog(File currentDirectory, File currentFile, FileFilter filter);
 
   void showPane(ViewPane messagePane, Action... actions);
 
-  File showSaveDialog(File currentDirectory, File currentFile);
+  File showSaveDialog(File currentDirectory, File currentFile, FileFilter filter);
 
   void showView(boolean show);
 
