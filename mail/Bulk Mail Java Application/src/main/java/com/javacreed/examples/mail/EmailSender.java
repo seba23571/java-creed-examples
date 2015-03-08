@@ -21,19 +21,11 @@
  */
 package com.javacreed.examples.mail;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.table.TableModel;
+import java.io.UnsupportedEncodingException;
 
-public interface Presenter {
+import javax.mail.MessagingException;
 
-  TableModel getDataTableModel();
+public interface EmailSender {
 
-  ComboBoxModel<String> getHeadersComboBoxModel();
-
-  TableModel getVariablesTableModel();
-
-  void onClosing();
-
-  void onDataValueChanged(int index);
-
+  void send(Email email) throws UnsupportedEncodingException, MessagingException;
 }

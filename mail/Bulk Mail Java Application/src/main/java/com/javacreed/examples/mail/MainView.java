@@ -39,6 +39,7 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,27 +49,32 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.TableColumn;
+import javax.swing.text.html.HTMLEditorKit;
 
-/**
- * Created by Albert on 06/02/2015.
- */
+import com.javacreed.examples.mail.sendtest.SendTestDialog;
+import com.javacreed.examples.mail.sendtest.SendTestView;
+
 public class MainView extends JFrame implements View {
 
   private static final long serialVersionUID = 4301781707259296429L;
 
   private Presenter presenter;
-  private JTextArea messageEditorArea;
-  private JTextArea messagePreviewArea;
   private JLabel statusLabel;
   private JPanel mainPanel;
   private JPanel actionsPanel;
 
+  private JEditorPane messagePreviewArea;
+  private JTextField subjectTextField;
+  private JTextArea messageEditorArea;
+  private JTextArea logsTextArea;
+
   private JComponent createDataComponent() {
-    final Presenter presenter = PresenterUtils.requireNonNull(this.presenter, "presenter");
 
     // Variables Table
     final JTable variablesTable = new JTable(presenter.getVariablesTableModel());
@@ -90,7 +96,9 @@ public class MainView extends JFrame implements View {
     });
 
     // Preview
-    messagePreviewArea = new JTextArea();
+    messagePreviewArea = new JEditorPane();
+    final HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
+    messagePreviewArea.setEditorKit(htmlEditorKit);
     messagePreviewArea.setMargin(new Insets(2, 2, 2, 2));
     messagePreviewArea.setEditable(false);
     messagePreviewArea.setOpaque(false);
@@ -106,17 +114,62 @@ public class MainView extends JFrame implements View {
   }
 
   private JComponent createMessageComponent() {
-    final JPanel panel = new JPanel(new BorderLayout());
+
+    final JPanel panel = new JPanel(new GridBagLayout());
+
+    GridBagConstraints constraints;
+
+    constraints = new GridBagConstraints();
+    constraints.insets = new Insets(10, 0, 5, 5);
+    panel.add(new JLabel("Subject"), constraints);
+
+    subjectTextField = new JTextField();
+    subjectTextField.setMargin(new Insets(2, 2, 2, 2));
+    subjectTextField.setFont(subjectTextField.getFont().deriveFont(14F));
+    constraints = new GridBagConstraints();
+    constraints.insets = new Insets(10, 5, 5, 0);
+    constraints.weightx = 1;
+    constraints.fill = GridBagConstraints.BOTH;
+    panel.add(subjectTextField, constraints);
+
+    // JToolBar toolBar = new JToolBar();
+    // panel.add(toolBar, BorderLayout.NORTH);
+    // toolBar.add(SwingUtils.addIcon(new StyledEditorKit.BoldAction(), "Bold"));
+    // toolBar.add(SwingUtils.addIcon(new StyledEditorKit.ItalicAction(), "Italics"));
+    // toolBar.add(SwingUtils.addIcon(new StyledEditorKit.UnderlineAction(), "Underline"));
+    // toolBar.addSeparator();
+
+    constraints = new GridBagConstraints();
+    constraints.insets = new Insets(0, 0, 2, 0);
+    constraints.gridy = 1;
+    constraints.gridwidth = 2;
+    constraints.anchor = GridBagConstraints.WEST;
+    panel.add(new JLabel("Message"), constraints);
 
     messageEditorArea = new JTextArea();
+    messageEditorArea.setFont(subjectTextField.getFont().deriveFont(14F));
     messageEditorArea.setMargin(new Insets(2, 2, 2, 2));
-    panel.add(BorderLayout.CENTER, new JScrollPane(messageEditorArea));
+    messageEditorArea.setLineWrap(true);
+    messageEditorArea.setWrapStyleWord(true);
+    constraints = new GridBagConstraints();
+    constraints.insets = new Insets(2, 0, 10, 0);
+    constraints.gridy = 2;
+    constraints.gridwidth = 2;
+    constraints.weightx = 1;
+    constraints.weighty = 1;
+    constraints.fill = GridBagConstraints.BOTH;
+    panel.add(new JScrollPane(messageEditorArea), constraints);
 
     return panel;
   }
 
   private JComponent createSendEmailComponent() {
-    final JPanel panel = new JPanel();
+    final JPanel panel = new JPanel(new BorderLayout(2, 2));
+
+    logsTextArea = new JTextArea();
+    logsTextArea.setEditable(false);
+
+    panel.add(BorderLayout.CENTER, new JScrollPane(logsTextArea));
 
     return panel;
   }
@@ -132,9 +185,17 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
-  public void init() {
-    final Presenter presenter = PresenterUtils.requireNonNull(this.presenter, "presenter");
+  public SendTestView getSendTestView() {
+    return new SendTestDialog(this);
+  }
 
+  @Override
+  public String getSubject() {
+    return subjectTextField.getText();
+  }
+
+  @Override
+  public void init() {
     initComponents();
 
     addWindowListener(new WindowAdapter() {
@@ -207,14 +268,37 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
+  public void setSubject(final String subject) {
+    subjectTextField.setText(subject);
+  }
+
+  @Override
   public void showError(final String title, final String message) {
     JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
   }
 
   @Override
-  public File showOpenDialog(final File currentDirectory, final File currentFile) {
+  public void showMessage(final String title, final String message) {
+    JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  @Override
+  public File showNewDialog(final File currentDirectory, final File currentFile, final FileFilter fileFilter) {
     final JFileChooser fileChooser = new JFileChooser(currentDirectory);
     fileChooser.setSelectedFile(currentFile);
+    fileChooser.setFileFilter(fileFilter);
+    fileChooser.setApproveButtonText("New");
+    if (fileChooser.showDialog(this, "New") == JFileChooser.APPROVE_OPTION) {
+      return fileChooser.getSelectedFile();
+    }
+    return null;
+  }
+
+  @Override
+  public File showOpenDialog(final File currentDirectory, final File currentFile, final FileFilter fileFilter) {
+    final JFileChooser fileChooser = new JFileChooser(currentDirectory);
+    fileChooser.setSelectedFile(currentFile);
+    fileChooser.setFileFilter(fileFilter);
     if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
       return fileChooser.getSelectedFile();
     }
@@ -234,9 +318,10 @@ public class MainView extends JFrame implements View {
   }
 
   @Override
-  public File showSaveDialog(final File currentDirectory, final File currentFile) {
+  public File showSaveDialog(final File currentDirectory, final File currentFile, final FileFilter fileFilter) {
     final JFileChooser fileChooser = new JFileChooser(currentDirectory);
     fileChooser.setSelectedFile(currentFile);
+    fileChooser.setFileFilter(fileFilter);
     if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
       return fileChooser.getSelectedFile();
     }

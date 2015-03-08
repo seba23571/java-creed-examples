@@ -22,33 +22,68 @@
 package com.javacreed.examples.mail;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by Albert on 06/02/2015.
- */
+import org.apache.commons.io.FileUtils;
+
 public class Model {
 
+  public static File getParent(final File file) {
+    if (file == null) {
+      return null;
+    }
+
+    return file.getParentFile();
+  }
+
   private ViewPane showingPane;
-  private MessageParser messageParser;
-  private File currentMessageFile;
+  private Composer composer = new Composer();
+  private File currentComposerFile;
   private File currentDataFile;
-  private File currentDirectory;
   private DataTableModel dataTableModel;
   private VariablesTableModel variablesTableModel;
   private DataParser dataParser;
+
   private HeadersComboBoxModel headersComboBoxModel;
+
+  public Email createEmail(final int index) {
+    final String recipient = "";
+    final String subject = replaceVariablesWithData(getSubject(), index);
+    final String message = replaceVariablesWithData(getMessage(), index);
+
+    return new Email(recipient, subject, message);
+  }
+
+  public Email createEmail(final Map<String, String> parameters) {
+    return composer.createEmail(parameters);
+  }
+
+  public Map<String, String> createParameters() {
+    return composer.createParameters();
+  }
+
+  public List<Email> formatEmails() {
+    return Collections.emptyList();
+  }
+
+  public File getCurrentComposerDirectory() {
+    return Model.getParent(currentComposerFile);
+  }
+
+  public File getCurrentComposerFile() {
+    return currentComposerFile;
+  }
+
+  public File getCurrentDataDirectory() {
+    return Model.getParent(currentDataFile);
+  }
 
   public File getCurrentDataFile() {
     return currentDataFile;
-  }
-
-  public File getCurrentDirectory() {
-    return currentDirectory;
-  }
-
-  public File getCurrentMessageFile() {
-    return currentMessageFile;
   }
 
   public DataTableModel getDataTableModel() {
@@ -60,31 +95,68 @@ public class Model {
   }
 
   public String getMessage() {
-    return messageParser.getMessage();
+    return composer.getMessage();
   }
 
   public ViewPane getShowingPane() {
     return showingPane;
   }
 
+  public String getSubject() {
+    return composer.getSubject();
+  }
+
   public List<VariableColumnBinding> getVariablesColumnBindings() {
     return variablesTableModel.getValues();
+  }
+
+  public Set<String> getVariablesNames() {
+    return composer.getVariablesNames();
   }
 
   public VariablesTableModel getVariablesTableModel() {
     return variablesTableModel;
   }
 
+  public void loadComposer(final File currentComposerFile) throws IOException, ClassNotFoundException {
+    this.currentComposerFile = currentComposerFile.getAbsoluteFile();
+    composer = Composer.readFromFile(currentComposerFile);
+    variablesTableModel.setVariables(composer.getVariablesNames());
+  }
+
+  public void loadData(final File dataFile) throws IOException {
+    this.currentDataFile = dataFile.getAbsoluteFile();
+    setData(FileUtils.readFileToString(dataFile, "UTF-8"));
+  }
+
+  public String replaceVariablesWithData(String data, final int index) {
+    // TODO: this is not cheap and need to see a better way
+    for (final VariableColumnBinding binding : getVariablesColumnBindings()) {
+      if (data.contains("${" + binding.getVariableName() + "}")) {
+        final String dataColumn = binding.getDataColumn();
+        final String value;
+        if (dataColumn == null) {
+          value = binding.getVariableName();
+        } else {
+          value = getDataTableModel().getCellValueAt(index, dataColumn);
+        }
+        data = data.replaceAll("\\$\\{" + binding.getVariableName() + "\\}", value);
+      }
+    }
+
+    return data;
+  }
+
+  public void save() throws IOException {
+    composer.saveToFile(currentComposerFile);
+  }
+
+  public void setCurrentComposerFile(final File currentComposerFile) {
+    this.currentComposerFile = currentComposerFile;
+  }
+
   public void setCurrentDataFile(final File currentDataFile) {
-    this.currentDataFile = currentDataFile;
-  }
-
-  public void setCurrentDirectory(final File currentDirectory) {
-    this.currentDirectory = currentDirectory;
-  }
-
-  public void setCurrentMessageFile(final File currentMessageFile) {
-    this.currentMessageFile = currentMessageFile;
+    this.currentDataFile = currentDataFile.getAbsoluteFile();
   }
 
   public void setData(final String data) {
@@ -102,12 +174,16 @@ public class Model {
   }
 
   public void setMessage(final String message) {
-    messageParser = new MessageParser(message);
-    variablesTableModel.setVariables(messageParser.getVariablesNames());
+    composer.setMessage(message);
+    variablesTableModel.setVariables(composer.getVariablesNames());
   }
 
   public ViewPane setShowingPane(final ViewPane showingPane) {
     return this.showingPane = showingPane;
+  }
+
+  public void setSubject(final String subject) {
+    this.composer.setSubject(subject);
   }
 
   public void setVariablesTableModel(final VariablesTableModel variablesTableModel) {

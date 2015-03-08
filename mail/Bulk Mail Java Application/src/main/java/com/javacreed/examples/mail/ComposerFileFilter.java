@@ -21,19 +21,21 @@
  */
 package com.javacreed.examples.mail;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.table.TableModel;
+import java.io.File;
 
-public interface Presenter {
+import javax.swing.filechooser.FileFilter;
 
-  TableModel getDataTableModel();
+public class ComposerFileFilter extends FileFilter {
 
-  ComboBoxModel<String> getHeadersComboBoxModel();
+  public static final FileFilter INSTANCE = new ComposerFileFilter();
 
-  TableModel getVariablesTableModel();
+  @Override
+  public boolean accept(final File f) {
+    return f.getName().endsWith(".composer");
+  }
 
-  void onClosing();
-
-  void onDataValueChanged(int index);
-
+  @Override
+  public String getDescription() {
+    return "Composer files";
+  }
 }

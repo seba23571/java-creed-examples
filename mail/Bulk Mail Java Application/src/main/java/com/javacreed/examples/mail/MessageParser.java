@@ -26,9 +26,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/**
- * Created by Albert on 06/02/2015.
- */
 public class MessageParser {
 
   private final String message;

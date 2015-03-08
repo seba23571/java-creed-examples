@@ -22,10 +22,14 @@
 package com.javacreed.examples.mail;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -33,6 +37,25 @@ import javax.swing.ImageIcon;
  * Created by Albert on 08/02/2015.
  */
 public class SwingUtils {
+
+  public static Action addIcon(final Action action, final String name) {
+    action.putValue(Action.SMALL_ICON, SwingUtils.getIcon(name));
+    return action;
+  }
+
+  public static Action createAction(final String name, final ActionListener listener) {
+    final Action action = new AbstractAction(name, SwingUtils.getIcon(name)) {
+
+      private static final long serialVersionUID = -4972776849245710938L;
+
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        listener.actionPerformed(e);
+      }
+    };
+
+    return action;
+  }
 
   public static Icon getIcon(final String name) {
     try (InputStream is = SwingUtils.class.getResourceAsStream("/icons/" + name + ".png")) {
